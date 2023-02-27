@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 
+// 这个示例展示了基本布局
 // Modifier.weight(0.5f) 两个子组件都一样则两边分
 @Composable
 @Preview
