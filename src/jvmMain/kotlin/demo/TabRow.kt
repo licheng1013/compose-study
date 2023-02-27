@@ -2,10 +2,7 @@ package demo
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
-import androidx.compose.material.ScrollableTabRow
-import androidx.compose.material.Tab
-import androidx.compose.material.TabRow
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -16,10 +13,10 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 
 @Composable
-fun TabDemo() {
+fun TabRowDemo() {
     // 定义标签列表和内容列表
-    val tabs = listOf("Home", "Profile", "Settings")
-    val contents = listOf("This is home page.", "This is profile page.", "This is settings page.")
+    val tabs = listOf("Tab1", "Tab2", "Tab3")
+    val contents = listOf("Tab1", "Tab2", "Tab3")
 
     // 定义一个状态变量来存储当前选中的标签索引，默认为0
     val selectedIndex = remember { mutableStateOf(0) }
@@ -50,6 +47,6 @@ fun TabDemo() {
 
 fun main() = application {
     Window(onCloseRequest = ::exitApplication) {
-        TabDemo()
+        TabRowDemo()
     }
 }

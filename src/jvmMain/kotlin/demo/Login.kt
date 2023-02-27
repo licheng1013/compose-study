@@ -1,3 +1,5 @@
+package demo
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Text
@@ -8,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun Login(){
+fun LoginDemo(){
     var text by remember { mutableStateOf("Hello, World!") }
     val username = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
@@ -39,7 +41,7 @@ fun Login(){
             println("Username: ${username.value}")
             println("Password: ${password.value}")
         }) {
-            Text("Login")
+            Text("demo.Login")
         }
     }
 }

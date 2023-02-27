@@ -14,7 +14,7 @@ import androidx.compose.ui.window.application
 // Modifier.weight(0.5f) 两个子组件都一样则两边分
 @Composable
 @Preview
-fun RowDemo() {
+fun LayoutDemo() {
     MaterialTheme {
         Row {
             Text("水平布局", modifier = Modifier.weight(0.5f))
@@ -28,6 +28,6 @@ fun RowDemo() {
 
 fun main() = application {
     Window(onCloseRequest = ::exitApplication) {
-        RowDemo()
+        LayoutDemo()
     }
 }
