@@ -12,5 +12,5 @@ pluginManagement {
     }
 }
 
-rootProject.name = "study-compose"
+rootProject.name = "compose-study"
 
