@@ -4,12 +4,11 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.animateSizeAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
+import androidx.compose.material.Tab
+import androidx.compose.material.TabRow
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -30,23 +29,24 @@ fun File() {
 
     Box {
         Column {
-            Box(Modifier.height(headerHeight).fillMaxWidth().background(color = Color.White)) {
-                Row(
-                    // 剧中
-                    Modifier.fillMaxSize().padding(horizontal = 10.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Button(
-                        modifier = Modifier.run {
-                            width(100.dp).height(40.dp)
-                        },
-                        onClick = {
-                            isHovering.value = !isHovering.value
-                            myPrintln("二维码${isHovering.value}")
-                        }) {
-                        Text("二维码")
-                    }
+            Row(
+                Modifier.height(headerHeight).background(color = Color.White)
+                    .padding(horizontal = 10.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Button(
+                    modifier = Modifier.run {
+                        width(100.dp).height(40.dp)
+                    },
+                    onClick = {
+                        isHovering.value = !isHovering.value
+                        myPrintln("二维码${isHovering.value}")
+                    }) {
+                    Text("二维码")
                 }
+                // 填充
+                Box(Modifier.width(16.dp))
+                Text("连接状态:已连接")
             }
             // 水平灰色分割线
             Spacer(
@@ -54,13 +54,22 @@ fun File() {
             )
             // 构建一个滚动列表
             val scrollState = rememberScrollState()
-            Column(
-                Modifier.verticalScroll(scrollState).fillMaxSize()
-            ) {
-                repeat(100) {
-                    Text("Item #$it")
+            Box {
+                Box {
+                    Column(
+                        Modifier.verticalScroll(scrollState)
+                    ) {
+                        repeat(1000) {
+                            Text("index #$it",Modifier.background(color = Color.Yellow).fillMaxWidth())
+                        }
+                    }
                 }
+                VerticalScrollbar(
+                    adapter = rememberScrollbarAdapter(scrollState),
+                    Modifier.align(Alignment.CenterEnd)
+                )
             }
+
         }
     }
 
