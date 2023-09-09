@@ -5,7 +5,9 @@ import web.web
 
 
 fun main() = application {
-    web()
+    Thread{
+        web()
+    }.start()
 
     Window(
         title = "File Sync",

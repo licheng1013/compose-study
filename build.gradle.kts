@@ -1,9 +1,10 @@
-import org.jetbrains.compose.compose
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
+    // web 必须加载此依赖否则无法返回json
+    kotlin("plugin.serialization").version("1.8.20")
 }
 
 group = "com.aiwan"
@@ -36,6 +37,8 @@ kotlin {
                 implementation("io.ktor:ktor-server-netty-jvm:2.3.4")
                 implementation("io.ktor:ktor-server-status-pages-jvm:2.3.4")
                 implementation("io.ktor:ktor-server-default-headers-jvm:2.3.4")
+                implementation("io.ktor:ktor-server-content-negotiation:2.3.4")
+                implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.4")
             }
         }
         val jvmTest by getting
