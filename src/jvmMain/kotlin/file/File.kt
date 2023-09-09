@@ -1,30 +1,21 @@
 package file
 
-import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.animateSizeAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
-import androidx.compose.foundation.gestures.detectDragGestures
-import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
-import androidx.compose.material.Tab
-import androidx.compose.material.TabRow
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.PointerInputScope
-import androidx.compose.ui.input.pointer.onPointerEvent
+import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import log.myPrintln
+import net.glxn.qrgen.javase.QRCode
 
 @Composable
 fun File() {
@@ -126,8 +117,11 @@ fun File() {
         }
     }
 
+
+
+
     // 二维码动画
-    var qrCodeSize = 150f
+    var qrCodeSize = 200f
     val boxSize by animateSizeAsState(if (isHovering.value) Size(qrCodeSize, qrCodeSize) else Size(0f, 0f)) {
         myPrintln("动画结束")
     }
@@ -143,9 +137,12 @@ fun File() {
                 color = Color.Gray
             )
         ) {
-            Column {
-                Text("Hello, world!")
-            }
+            // get QR stream from text using defaults
+            val file = QRCode.from("Hello World").withSize(300, 300).stream()
+            Image(
+                bitmap = org.jetbrains.skia.Image.makeFromEncoded(file.toByteArray()).toComposeImageBitmap(),
+                contentDescription = "二维码",
+            )
         }
     }
 

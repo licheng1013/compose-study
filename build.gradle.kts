@@ -13,6 +13,8 @@ repositories {
     google()
     mavenCentral()
     maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+    // 二维码生成
+    maven  ("https://jitpack.io" )
 }
 
 kotlin {
@@ -24,11 +26,15 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(compose.desktop.currentOs)
+                // QRCode 二维码生成
+                implementation("com.github.kenglxn.QRGen:javase:3.0.1")
             }
         }
         val jvmTest by getting
     }
 }
+
+
 
 compose.desktop {
     application {
