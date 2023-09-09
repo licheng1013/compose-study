@@ -1,5 +1,6 @@
 package file
 
+import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
@@ -15,6 +16,7 @@ import log.myPrintln
 // 定义一个compose函数
 
 @Composable
+@Preview
 fun home() {
     val tabs = listOf("文件列表", "设置")
     val selectedIndex = remember { mutableStateOf(0) }
@@ -36,10 +38,7 @@ fun home() {
                 }
             }
         }
-        // 垂直灰色分割线
-        Spacer(
-            modifier = Modifier.width(1.dp).fillMaxHeight().background(color = Color.Gray)
-        )
+        verticalSpacer()
         Box(modifier = Modifier.fillMaxSize()) {//容器
             when (selectedIndex.value) {
                 0 -> File()
