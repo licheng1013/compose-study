@@ -80,7 +80,7 @@ fun File() {
             Row {
                 Column(
                     Modifier.width(125.dp).background(color = Color.White)
-                        .padding(horizontal = 6.dp)
+                        .padding(horizontal = 6.dp).verticalScroll(rememberScrollState())
                 ) {
                     // 构建 tabs
                     tabs.forEachIndexed { index, title ->
