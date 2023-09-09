@@ -9,6 +9,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.awt.ComposeWindow
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toComposeImageBitmap
@@ -16,6 +17,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import log.myPrintln
 import net.glxn.qrgen.javase.QRCode
+import java.awt.FileDialog
 
 @Composable
 fun File() {
@@ -65,7 +67,13 @@ fun File() {
                         width(100.dp).height(40.dp)
                     },
                     onClick = {
-                        myPrintln("选择文件")
+                        val fileDialog = FileDialog(ComposeWindow())
+                        fileDialog.isVisible = true
+                        fileDialog.isMultipleMode = true
+                        fileDialog.title = "选择文件"
+                        val filePath = fileDialog.file
+                        // 获取绝对路径
+                        myPrintln("选择文件: $filePath")
 
 
                     }) {
