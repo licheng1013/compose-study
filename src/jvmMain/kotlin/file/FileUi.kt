@@ -20,7 +20,7 @@ import net.glxn.qrgen.javase.QRCode
 import java.awt.FileDialog
 
 @Composable
-fun File() {
+fun fileUi() {
     // 头部高度
     val headerHeight = 50.dp
     val isHovering = remember { mutableStateOf(false) }
@@ -102,7 +102,7 @@ fun File() {
                         }
                     }
                 }
-                verticalSpacer()
+                MyUi.verticalSpacer()
                 Box {
                     // 构建一个滚动列表
                     val scrollState = rememberScrollState()

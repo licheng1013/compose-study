@@ -10,7 +10,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
+import file.MyUi.verticalSpacer
 import log.myPrintln
 
 // 定义一个compose函数
@@ -22,28 +25,32 @@ fun home() {
     val selectedIndex = remember { mutableStateOf(0) }
 
     Row {
-        Box(
-            modifier = Modifier.width(150.dp).fillMaxHeight().background(color = Color.White).padding(horizontal = 6.dp)
+
+        Column(
+            modifier = Modifier.width(150.dp).fillMaxHeight()
+                .background(color = Color(244, 244, 244))
+                .padding(horizontal = 6.dp)
         ) {
-            Column() {
-                tabs.forEachIndexed { index, e ->
-                    Button(
-                        modifier = Modifier.fillMaxWidth(),
-                        onClick = {
-                            myPrintln("点击了:${e}")
-                            selectedIndex.value = index
-                        }) {
-                        Text(e)
-                    }
+            // Logo
+            Text("File Manager", fontSize = TextUnit(24f, TextUnitType.Sp))
+            tabs.forEachIndexed { index, e ->
+                Button(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = {
+                        myPrintln("点击了:${e}")
+                        selectedIndex.value = index
+                    }) {
+                    Text(e)
                 }
             }
         }
         verticalSpacer()
         Box(modifier = Modifier.fillMaxSize()) {//容器
             when (selectedIndex.value) {
-                0 -> File()
-                1 -> FileSetting()
+                0 -> fileUi()
+                1 -> settingUi()
             }
         }
+
     }
 }
