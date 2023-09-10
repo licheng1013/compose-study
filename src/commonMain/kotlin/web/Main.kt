@@ -32,6 +32,19 @@ private fun Application.extracted() {
     }
     routing {
         get("/") {
+            val header = call.request.header("Token")
+            myPrintln("header:${header}")
+            call.respond(okMsg("成功"))
+        }
+        post("/login") {
+            val header = call.request.header("Token")
+            myPrintln("header:${header}")
+            // 获取表单数据
+            val params = call.receiveParameters()
+            val username = params["userName"]
+            myPrintln("username:${username}")
+
+
             call.respond(okMsg("成功"))
         }
         // 下载文件
