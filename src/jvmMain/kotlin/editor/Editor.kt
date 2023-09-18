@@ -14,6 +14,8 @@ import androidx.compose.ui.unit.dp
 import editor.action.Action
 import editor.action.HomeAction
 import editor.action.MessageAction
+import editor.tool.Tool
+import editor.ui.Ui
 
 class Editor : Ui {
     // header height
@@ -50,8 +52,13 @@ class Editor : Ui {
     override fun ui() {
         Column(modifier = Modifier.fillMaxSize()) {
             // header park
-            Row(modifier = Modifier.height(headerHeight).fillMaxWidth().background(toolColor)) {
-                Text("工具栏", color = fontColor)
+            Row(modifier = Modifier.height(headerHeight).fillMaxWidth().background(toolColor), verticalAlignment = Alignment.CenterVertically) {
+                localSpacer()
+                Tool("File").ui()
+                localSpacer()
+                Tool("Edit").ui()
+                localSpacer()
+                Tool("About").ui()
             }
             horizontalSpacer()
             // body park
@@ -110,18 +117,18 @@ class Editor : Ui {
             Row(modifier = Modifier.height(footerHeight).fillMaxWidth().background(toolColor), verticalAlignment = Alignment.CenterVertically) {
                 Spacer(Modifier.weight(1f))
                 Text("12char", color = fontColor)
-                footerSpacer()
+                localSpacer()
                 Text("11:23", color = fontColor)
-                footerSpacer()
+                localSpacer()
                 Text("UTF-8", color = fontColor)
-                footerSpacer()
+                localSpacer()
             }
         }
     }
 
     // 10.dp 分割宽度
     @Composable
-    fun footerSpacer() {
+    fun localSpacer() {
         Spacer(modifier = Modifier.width(6.dp))
     }
 }

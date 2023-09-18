@@ -1,4 +1,4 @@
-package editor
+package editor.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

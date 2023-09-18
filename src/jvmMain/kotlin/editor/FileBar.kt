@@ -14,6 +14,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import editor.ui.Ui
 
 class FileBar(
     private val fileName: String,
@@ -28,7 +29,7 @@ class FileBar(
     @Composable
     override fun horizontalSpacer() {
         Spacer(
-            modifier = Modifier.height(1.dp).fillMaxWidth().background(color = Color.White)
+            modifier = Modifier.height(1.dp).fillMaxWidth().background(color = Color(53, 116, 240))
         )
     }
 
