@@ -42,6 +42,7 @@ class Tool(private var name: String, var editor: Editor) : Ui {
                 .padding(4.dp)
                 .pointerHoverIcon(icon = PointerIcon.Hand).pointerInput(Unit) {
                     detectTapGestures(onTap = {
+                        println("展开")
                         expanded.value = true
                     })
                 }.hoverable(interactionSource = interactionSource)
@@ -50,7 +51,6 @@ class Tool(private var name: String, var editor: Editor) : Ui {
                 name,
                 color = fontColor
             )
-
             DropdownMenu(
                 modifier = Modifier.background(color = Theme.lightGery),
                 expanded = expanded.value,

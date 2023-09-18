@@ -1,6 +1,11 @@
 package editor.theme
 
+import androidx.compose.foundation.LocalScrollbarStyle
+import androidx.compose.foundation.ScrollbarStyle
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 
 class Theme {
     companion object{
@@ -20,5 +25,18 @@ class Theme {
          * hover edit color
          */
         val hoverEditColor = Color(46, 67, 110)
+
+
+        @Composable
+        fun scrollbarStyle(): ScrollbarStyle {
+            return ScrollbarStyle(
+                thickness = 8.dp,
+                shape = RoundedCornerShape(0.dp),
+                hoverDurationMillis = 1000,
+                unhoverColor = lightGery,
+                hoverColor = hoverColor,
+                minimalHeight = LocalScrollbarStyle.current.minimalHeight + 10.dp,
+            )
+        }
     }
 }

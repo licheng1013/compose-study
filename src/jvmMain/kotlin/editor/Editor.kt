@@ -2,7 +2,6 @@ package editor
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
@@ -43,6 +42,10 @@ class Editor : Ui {
     // left action list
     private val leftActionList = mutableStateListOf<Action>()
 
+    // left action show state
+    val  leftActionShow = mutableStateOf(true)
+
+
     init {
         leftActionList.add(HomeAction())
         leftActionList.add(MessageAction())
@@ -79,6 +82,29 @@ class Editor : Ui {
                         action.ui()
                     }
                 }
+                if (leftActionShow.value) {
+                    // 构建一个滚动列表
+                    Box(Modifier.width(200.dp)){
+                        val scrollState = rememberScrollState()
+                        Box {
+                            Column(
+                                Modifier.verticalScroll(scrollState).width(200.dp).fillMaxHeight().background(color = bodyColor)
+                            ) {
+                                repeat(1000) {
+                                    Text("Hello File #$it", color = fontColor)
+                                }
+                            }
+                        }
+                        VerticalScrollbar(
+                            adapter = rememberScrollbarAdapter(scrollState),
+                            Modifier.align(Alignment.CenterEnd),
+                            style = Theme.scrollbarStyle()
+                        )
+                    }
+                    verticalSpacer()
+                }
+
+
                 // center park
                 Column(modifier = Modifier.weight(1f).fillMaxHeight().background(color = bodyColor)) {
                     Row(modifier = Modifier.height(40.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -99,18 +125,10 @@ class Editor : Ui {
                                 }
                             }
                         }
-                        var style = ScrollbarStyle(
-                            thickness = 8.dp,
-                            shape = RoundedCornerShape(0.dp),
-                            hoverDurationMillis = 1000,
-                            unhoverColor = Theme.lightGery,
-                            hoverColor = Theme.hoverColor,
-                            minimalHeight = LocalScrollbarStyle.current.minimalHeight + 10.dp,
-                        )
                         VerticalScrollbar(
                             adapter = rememberScrollbarAdapter(scrollState),
                             Modifier.align(Alignment.CenterEnd),
-                            style = style
+                            style = Theme.scrollbarStyle()
                         )
                     }
                 }

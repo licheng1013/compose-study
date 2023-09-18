@@ -33,11 +33,16 @@ abstract class Action : Ui {
     @Composable
     override fun ui() {
         IconButton(
-            modifier = Modifier.background(color = if (selected) selectedColor else unselectedColor)
+            modifier = Modifier.background(color = if (selected && editor!!.leftActionShow.value) selectedColor else unselectedColor)
                 .pointerHoverIcon(icon = PointerIcon.Hand)
                 .height(30.dp).padding(horizontal = 5.dp),
             onClick = {
-                editor!!.leftActionIndex.value = index
+                if (editor!!.leftActionShow.value && index == editor!!.leftActionIndex.value) {
+                    editor!!.leftActionShow.value = false
+                }else {
+                    editor!!.leftActionIndex.value = index
+                    editor!!.leftActionShow.value = true
+                }
             }) {
             Icon(icon(),contentDescription = desc(),tint = actionColor())
         }
