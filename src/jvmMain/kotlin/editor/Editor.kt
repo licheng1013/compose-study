@@ -5,11 +5,15 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import editor.action.Action
+import editor.action.HomeAction
+import editor.action.MessageAction
 
 class Editor : Ui {
     // header height
@@ -23,11 +27,23 @@ class Editor : Ui {
 
     // left or right color
     private val toolColor = Color(43, 45, 48)
+
     // body color
     private val bodyColor = Color(30, 31, 34)
 
     // selected file bar
     val selectedFileIndex = mutableStateOf(0)
+
+    // left action index
+    val leftActionIndex = mutableStateOf(0)
+
+    // left action list
+    private val leftActionList = mutableStateListOf<Action>()
+
+    init {
+        leftActionList.add(HomeAction())
+        leftActionList.add(MessageAction())
+    }
 
 
     @Composable
@@ -35,20 +51,26 @@ class Editor : Ui {
         Column(modifier = Modifier.fillMaxSize()) {
             // header park
             Row(modifier = Modifier.height(headerHeight).fillMaxWidth().background(toolColor)) {
-                Text("工具栏",color = fontColor)
+                Text("工具栏", color = fontColor)
             }
             horizontalSpacer()
             // body park
             Row(modifier = Modifier.weight(1f).fillMaxHeight()) {
                 // left park
                 Column(modifier = Modifier.width(leftRightWidth).fillMaxHeight().background(color = toolColor)) {
-
+                    repeat(leftActionList.size) {
+                        val action = leftActionList[it]
+                        action.selected = it == leftActionIndex.value
+                        action.index = it
+                        action.editor = this@Editor
+                        action.ui()
+                    }
                 }
                 // center park
-                Column (modifier = Modifier.weight(1f).fillMaxHeight().background(color = bodyColor)) {
-                    Row(modifier = Modifier.height(40.dp),verticalAlignment = Alignment.CenterVertically){
-                        repeat(5){
-                            FileBar("Demo.kt",it == selectedFileIndex.value,this@Editor,it).ui()
+                Column(modifier = Modifier.weight(1f).fillMaxHeight().background(color = bodyColor)) {
+                    Row(modifier = Modifier.height(40.dp), verticalAlignment = Alignment.CenterVertically) {
+                        repeat(5) {
+                            FileBar("Demo.kt", it == selectedFileIndex.value, this@Editor, it).ui()
                         }
                     }
                     horizontalSpacer()
@@ -70,7 +92,7 @@ class Editor : Ui {
                             hoverDurationMillis = 1000,
                             unhoverColor = Color(69, 69, 71),
                             hoverColor = Color(78, 78, 80),
-                            minimalHeight = LocalScrollbarStyle.current.minimalHeight+10.dp,
+                            minimalHeight = LocalScrollbarStyle.current.minimalHeight + 10.dp,
                         )
                         VerticalScrollbar(
                             adapter = rememberScrollbarAdapter(scrollState),
@@ -85,10 +107,21 @@ class Editor : Ui {
             }
             horizontalSpacer()
             // footer park
-            Row(modifier = Modifier.height(footerHeight).fillMaxWidth().background(toolColor)) {
-                Text("底部信息栏",color = fontColor)
+            Row(modifier = Modifier.height(footerHeight).fillMaxWidth().background(toolColor), verticalAlignment = Alignment.CenterVertically) {
+                Spacer(Modifier.weight(1f))
+                Text("12char", color = fontColor)
+                footerSpacer()
+                Text("11:23", color = fontColor)
+                footerSpacer()
+                Text("UTF-8", color = fontColor)
+                footerSpacer()
             }
         }
     }
 
+    // 10.dp 分割宽度
+    @Composable
+    fun footerSpacer() {
+        Spacer(modifier = Modifier.width(6.dp))
+    }
 }
