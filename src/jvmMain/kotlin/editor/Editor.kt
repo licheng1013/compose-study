@@ -9,17 +9,18 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import editor.action.Action
 import editor.action.HomeAction
 import editor.action.MessageAction
+import editor.theme.Theme
 import editor.tool.Tool
 import editor.ui.Ui
 
 class Editor : Ui {
     // header height
-    private val headerHeight = 30.dp
+    private val headerHeight = 35.dp
 
     // footer height
     private val footerHeight = 25.dp
@@ -28,10 +29,10 @@ class Editor : Ui {
     private val leftRightWidth = 30.dp
 
     // left or right color
-    private val toolColor = Color(43, 45, 48)
+    private val toolColor = Theme.lightGery
 
     // body color
-    private val bodyColor = Color(30, 31, 34)
+    private val bodyColor = Theme.darkGery
 
     // selected file bar
     val selectedFileIndex = mutableStateOf(0)
@@ -50,16 +51,21 @@ class Editor : Ui {
 
     @Composable
     override fun ui() {
+
         Column(modifier = Modifier.fillMaxSize()) {
             // header park
-            Row(modifier = Modifier.height(headerHeight).fillMaxWidth().background(toolColor), verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                modifier = Modifier.height(headerHeight).fillMaxWidth().background(toolColor),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                localSpacer(leftRightWidth)
+                Tool("File", this@Editor).ui()
                 localSpacer()
-                Tool("File").ui()
+                Tool("Edit", this@Editor).ui()
                 localSpacer()
-                Tool("Edit").ui()
-                localSpacer()
-                Tool("About").ui()
+                Tool("About", this@Editor).ui()
             }
+
             horizontalSpacer()
             // body park
             Row(modifier = Modifier.weight(1f).fillMaxHeight()) {
@@ -97,8 +103,8 @@ class Editor : Ui {
                             thickness = 8.dp,
                             shape = RoundedCornerShape(0.dp),
                             hoverDurationMillis = 1000,
-                            unhoverColor = Color(69, 69, 71),
-                            hoverColor = Color(78, 78, 80),
+                            unhoverColor = Theme.lightGery,
+                            hoverColor = Theme.hoverColor,
                             minimalHeight = LocalScrollbarStyle.current.minimalHeight + 10.dp,
                         )
                         VerticalScrollbar(
@@ -114,7 +120,10 @@ class Editor : Ui {
             }
             horizontalSpacer()
             // footer park
-            Row(modifier = Modifier.height(footerHeight).fillMaxWidth().background(toolColor), verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                modifier = Modifier.height(footerHeight).fillMaxWidth().background(toolColor),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Spacer(Modifier.weight(1f))
                 Text("12char", color = fontColor)
                 localSpacer()
@@ -128,7 +137,7 @@ class Editor : Ui {
 
     // 10.dp 分割宽度
     @Composable
-    fun localSpacer() {
-        Spacer(modifier = Modifier.width(6.dp))
+    fun localSpacer(width: Dp = 6.dp) {
+        Spacer(modifier = Modifier.width(width))
     }
 }
