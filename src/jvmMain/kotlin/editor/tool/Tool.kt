@@ -24,6 +24,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import editor.Editor
+import editor.open.FileUtil
 import editor.theme.Theme
 import editor.ui.Ui
 
@@ -42,8 +43,10 @@ class Tool(private var name: String, var editor: Editor) : Ui {
                 .padding(4.dp)
                 .pointerHoverIcon(icon = PointerIcon.Hand).pointerInput(Unit) {
                     detectTapGestures(onTap = {
+                        //调用文件窗口
                         println("展开")
-                        expanded.value = true
+                        //expanded.value = true
+                        FileUtil.openFile()
                     })
                 }.hoverable(interactionSource = interactionSource)
         ) {
