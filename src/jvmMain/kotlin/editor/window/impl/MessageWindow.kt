@@ -1,7 +1,9 @@
 package editor.window.impl
 
 import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Notifications
@@ -10,7 +12,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.unit.dp
 import editor.theme.Theme
 import editor.window.DefaultWindow
 import editor.window.WindowPosition
@@ -24,7 +25,7 @@ class MessageWindow : DefaultWindow() {
             val scrollState = rememberScrollState()
             Box {
                 Column(
-                    Modifier.verticalScroll(scrollState).width(200.dp).fillMaxHeight()
+                    Modifier.verticalScroll(scrollState).fillMaxSize()
                         .background(color = Theme.lightGery)
                 ) {
                     repeat(1000) {

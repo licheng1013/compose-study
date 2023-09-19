@@ -1,6 +1,7 @@
 package editor
 
 import androidx.compose.foundation.*
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -8,6 +9,10 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.PointerIcon
+import androidx.compose.ui.input.pointer.pointerHoverIcon
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import editor.theme.Theme
@@ -45,8 +50,8 @@ class Editor : Ui {
 
 
     private var leftWindowWidth = mutableStateOf(200)
+    private var width = 200;
     var leftWindowId = mutableStateOf("")
-
 
 
     init {
@@ -64,9 +69,21 @@ class Editor : Ui {
         throw RuntimeException("Window not fround")
     }
 
+    @Composable
+    private fun buildWindowByPosition(position: WindowPosition) {
+        repeat(windowList.size) {
+            val action = windowList[it]
+            if (action.position() == position) {
+                windowSPacer()
+                action.ui()
+            }
+        }
+    }
+
 
     @Composable
     override fun ui() {
+
 
         Column(modifier = Modifier.fillMaxSize()) {
             // header park
@@ -87,19 +104,23 @@ class Editor : Ui {
             Row(modifier = Modifier.weight(1f).fillMaxHeight()) {
                 // left park
                 Column(modifier = Modifier.width(leftRightWidth).fillMaxHeight().background(color = toolColor)) {
-                    repeat(windowList.size) {
-                        val action = windowList[it]
-                        if (action.position() == WindowPosition.LEFT_TOP) {
-                            windowSPacer()
-                            action.ui()
-                        }
-                    }
+                    buildWindowByPosition(WindowPosition.LEFT_TOP)
+                    Spacer(Modifier.weight(1f))
+                    buildWindowByPosition(WindowPosition.LEFT_BOTTOM)
                 }
                 if (leftWindowId.value.isNotEmpty()) {
                     Box(Modifier.width(leftWindowWidth.value.dp)) {
                         getWindowById().windowUi()
                     }
+                    Spacer(
+                        Modifier.fillMaxHeight().background(Color.White).width(1.dp)
+                            .pointerHoverIcon(PointerIcon.Crosshair).pointerInput(Unit) {
+                                detectDragGestures { _, dragAmount ->
+                                    leftWindowWidth.value += dragAmount.x.toInt()
+                            }
+                        })
                 }
+
                 // center park
                 Column(modifier = Modifier.weight(1f).fillMaxHeight().background(color = bodyColor)) {
                     Row(modifier = Modifier.height(40.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -129,6 +150,9 @@ class Editor : Ui {
                 }
                 // right park
                 Column(modifier = Modifier.width(leftRightWidth).fillMaxHeight().background(color = toolColor)) {
+                    buildWindowByPosition(WindowPosition.RIGHT_TOP)
+                    Spacer(Modifier.weight(1f))
+                    buildWindowByPosition(WindowPosition.RIGHT_BOTTOM)
                 }
             }
             horizontalSpacer()
@@ -148,6 +172,9 @@ class Editor : Ui {
         }
     }
 
+
+
+
     // 10.dp 分割宽度
     @Composable
     fun localSpacer(width: Dp = 6.dp) {
@@ -155,7 +182,7 @@ class Editor : Ui {
     }
 
     @Composable
-    fun windowSPacer(){
+    fun windowSPacer() {
         Spacer(modifier = Modifier.height(0.dp))
     }
 
