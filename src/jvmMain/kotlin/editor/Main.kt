@@ -10,6 +10,6 @@ fun main() = application {
         title = "My Editor",
         onCloseRequest = ::exitApplication
     ) {
-        Editor().ui()
+        Editor.editor.ui()
     }
 }

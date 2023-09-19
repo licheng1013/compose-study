@@ -10,12 +10,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import editor.action.Action
-import editor.action.HomeAction
-import editor.action.MessageAction
 import editor.theme.Theme
 import editor.tool.Tool
 import editor.ui.Ui
+import editor.window.DefaultWindow
+import editor.window.WindowPosition
+import editor.window.impl.FileWindow
+import editor.window.impl.MessageWindow
 
 class Editor : Ui {
     // header height
@@ -40,15 +41,27 @@ class Editor : Ui {
     val leftActionIndex = mutableStateOf(0)
 
     // left action list
-    private val leftActionList = mutableStateListOf<Action>()
+    private val windowList = mutableStateListOf<DefaultWindow>()
 
-    // left action show state
-    val  leftActionShow = mutableStateOf(true)
+
+    private var leftWindowWidth = mutableStateOf(200)
+    var leftWindowId = mutableStateOf("")
+
 
 
     init {
-        leftActionList.add(HomeAction())
-        leftActionList.add(MessageAction())
+        windowList.add(FileWindow())
+        windowList.add(MessageWindow())
+        leftWindowId.value = windowList.first().id()
+    }
+
+    private fun getWindowById(): DefaultWindow {
+        for (window in windowList) {
+            if (window.id() == leftWindowId.value) {
+                return window
+            }
+        }
+        throw RuntimeException("Window not fround")
     }
 
 
@@ -74,37 +87,19 @@ class Editor : Ui {
             Row(modifier = Modifier.weight(1f).fillMaxHeight()) {
                 // left park
                 Column(modifier = Modifier.width(leftRightWidth).fillMaxHeight().background(color = toolColor)) {
-                    repeat(leftActionList.size) {
-                        val action = leftActionList[it]
-                        action.selected = it == leftActionIndex.value
-                        action.index = it
-                        action.editor = this@Editor
-                        action.ui()
-                    }
-                }
-                if (leftActionShow.value) {
-                    // 构建一个滚动列表
-                    Box(Modifier.width(200.dp)){
-                        val scrollState = rememberScrollState()
-                        Box {
-                            Column(
-                                Modifier.verticalScroll(scrollState).width(200.dp).fillMaxHeight().background(color = bodyColor)
-                            ) {
-                                repeat(1000) {
-                                    Text("Hello File #$it", color = fontColor)
-                                }
-                            }
+                    repeat(windowList.size) {
+                        val action = windowList[it]
+                        if (action.position() == WindowPosition.LEFT_TOP) {
+                            windowSPacer()
+                            action.ui()
                         }
-                        VerticalScrollbar(
-                            adapter = rememberScrollbarAdapter(scrollState),
-                            Modifier.align(Alignment.CenterEnd),
-                            style = Theme.scrollbarStyle()
-                        )
                     }
-                    verticalSpacer()
                 }
-
-
+                if (leftWindowId.value.isNotEmpty()) {
+                    Box(Modifier.width(leftWindowWidth.value.dp)) {
+                        getWindowById().windowUi()
+                    }
+                }
                 // center park
                 Column(modifier = Modifier.weight(1f).fillMaxHeight().background(color = bodyColor)) {
                     Row(modifier = Modifier.height(40.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -157,5 +152,14 @@ class Editor : Ui {
     @Composable
     fun localSpacer(width: Dp = 6.dp) {
         Spacer(modifier = Modifier.width(width))
+    }
+
+    @Composable
+    fun windowSPacer(){
+        Spacer(modifier = Modifier.height(0.dp))
+    }
+
+    companion object {
+        var editor = Editor()
     }
 }
