@@ -60,7 +60,7 @@ private fun Application.extracted() {
 
         post("/uploadFile") {
             // 文件上传成功后，保存到本地
-            var fileDescription = MyUtil.getDownloadDir()
+            var fileDescription = util.MyUtil.getDownloadDir()
             // 解析多部分表单数据
             val multipartData = call.receiveMultipart()
             // 遍历所有的表单项
