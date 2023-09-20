@@ -20,6 +20,7 @@ import window.DefaultWindow
 import window.WindowPosition
 import window.impl.FileWindow
 import window.impl.MessageWindow
+import window.impl.RunWindow
 
 class Editor : Ui {
     // header height
@@ -49,18 +50,20 @@ class Editor : Ui {
 
     private var leftWindowWidth = mutableStateOf(200)
     private var width = 200;
-    var leftWindowId = mutableStateOf("")
+    var leftTopWindowId = mutableStateOf("")
+    var leftBottomWindowId = mutableStateOf("")
 
 
     init {
         windowList.add(FileWindow())
         windowList.add(MessageWindow())
-        leftWindowId.value = windowList.first().id()
+        windowList.add(RunWindow())
+        leftTopWindowId.value = windowList.first().id()
     }
 
-    private fun getWindowById(): DefaultWindow {
+    private fun getWindowById(id:String): DefaultWindow {
         for (window in windowList) {
-            if (window.id() == leftWindowId.value) {
+            if (window.id() == id) {
                 return window
             }
         }
@@ -81,7 +84,6 @@ class Editor : Ui {
 
     @Composable
     override fun ui() {
-
         Column(modifier = Modifier.fillMaxSize()) {
             // header park
             Row(
@@ -105,9 +107,9 @@ class Editor : Ui {
                     Spacer(Modifier.weight(1f))
                     buildWindowByPosition(WindowPosition.LEFT_BOTTOM)
                 }
-                if (leftWindowId.value.isNotEmpty()) {
+                if (leftTopWindowId.value.isNotEmpty()) {
                     Box(Modifier.width(leftWindowWidth.value.dp)) {
-                        getWindowById().windowUi()
+                        getWindowById(leftTopWindowId.value).windowUi()
                     }
                     Spacer(
                         Modifier.fillMaxHeight().background(Color.White).width(1.dp)
@@ -144,6 +146,19 @@ class Editor : Ui {
                             style = Theme.scrollbarStyle()
                         )
                     }
+
+                    if (leftBottomWindowId.value.isNotEmpty()) {
+                        Spacer(
+                            Modifier.fillMaxWidth().background(Color.White).height(1.dp)
+                                .pointerHoverIcon(PointerIcon.Hand).pointerInput(Unit) {
+                                    detectDragGestures { _, dragAmount ->
+                                        // leftWindowWidth.value += dragAmount.x.toInt()
+                                    }
+                                })
+                        Box(Modifier.height(100.dp)) {
+                            getWindowById(leftBottomWindowId.value).windowUi()
+                        }
+                    }
                 }
                 // right park
                 Column(modifier = Modifier.width(leftRightWidth).fillMaxHeight().background(color = toolColor)) {
@@ -152,6 +167,8 @@ class Editor : Ui {
                     buildWindowByPosition(WindowPosition.RIGHT_BOTTOM)
                 }
             }
+
+
             horizontalSpacer()
             // footer park
             Row(

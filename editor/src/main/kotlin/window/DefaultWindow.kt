@@ -33,17 +33,22 @@ abstract class DefaultWindow : Window {
     @Composable
     override fun ui() {
 
-        selected.value = Editor.editor.leftWindowId.value == id()
+        selected.value = Editor.editor.leftTopWindowId.value == id()
 
         val interactionSource = remember { MutableInteractionSource() }
         val isHovered by interactionSource.collectIsHoveredAsState()
         IconButton(
-            modifier = Modifier.background(color = if (selected.value || isHovered) Theme.selectedColor else Theme.unselectedColor
+            modifier = Modifier.background(
+                color = if (selected.value || isHovered) Theme.selectedColor else Theme.unselectedColor
             )
                 .pointerHoverIcon(icon = PointerIcon.Hand).hoverable(interactionSource)
                 .height(30.dp),
             onClick = {
-                Editor.editor.leftWindowId.value = id()
+                if (position() == WindowPosition.LEFT_TOP) {
+                    Editor.editor.leftTopWindowId.value = id()
+                } else if (position() == WindowPosition.LEFT_BOTTOM) {
+                    Editor.editor.leftBottomWindowId.value = id()
+                }
             }) {
             Icon(icon(), contentDescription = desc(), tint = color())
         }
