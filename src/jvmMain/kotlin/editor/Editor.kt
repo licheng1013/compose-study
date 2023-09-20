@@ -84,7 +84,6 @@ class Editor : Ui {
     @Composable
     override fun ui() {
 
-
         Column(modifier = Modifier.fillMaxSize()) {
             // header park
             Row(
@@ -114,7 +113,7 @@ class Editor : Ui {
                     }
                     Spacer(
                         Modifier.fillMaxHeight().background(Color.White).width(1.dp)
-                            .pointerHoverIcon(PointerIcon.Crosshair).pointerInput(Unit) {
+                            .pointerHoverIcon(PointerIcon.Hand).pointerInput(Unit) {
                                 detectDragGestures { _, dragAmount ->
                                     leftWindowWidth.value += dragAmount.x.toInt()
                             }
