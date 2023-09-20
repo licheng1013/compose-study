@@ -1,3 +1,4 @@
+import Editor.Companion.editor
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
@@ -17,7 +18,6 @@ import ui.Ui
 class FileBar(
     private val fileName: String,
     private val selectedFile: Boolean = false,
-    private val editor: Editor,
     private val index: Int
 ) : Ui {
 
@@ -36,19 +36,26 @@ class FileBar(
         var lenght = fileName.length * 12
         Column(
             Modifier.width(lenght.dp).pointerHoverIcon(icon = PointerIcon.Hand).pointerInput(Unit) {
-                detectTapGestures( onTap = {
+                detectTapGestures(onTap = {
                     editor.selectedFileIndex.value = index
                 })
             },
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.weight(1f))
-            Text(fileName, color = fontColor, textAlign = TextAlign.Center, fontSize = fontSize)
+            Text(
+                fileName,
+                color = if (selectedFile) selectedColor else fontColor,
+                textAlign = TextAlign.Center,
+                fontSize = fontSize
+            )
             // 水平线
             Spacer(modifier = Modifier.weight(1f))
-            if (selectedFile){
+            if (selectedFile) {
                 horizontalSpacer()
             }
         }
     }
+
+    val selectedColor = Color(0xffa5d6a7)
 }

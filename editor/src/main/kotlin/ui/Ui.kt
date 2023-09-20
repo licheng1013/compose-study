@@ -25,7 +25,7 @@ interface Ui {
     fun  verticalSpacer() {
         // 垂直灰色分割线
         Spacer(
-            modifier = Modifier.width(1.dp).fillMaxHeight().background(color = Color.Gray)
+            modifier = Modifier.width(1.dp).fillMaxHeight().background(color = Color(30, 31, 34))
         )
     }
 

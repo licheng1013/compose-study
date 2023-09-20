@@ -1,5 +1,6 @@
 package window
 
+import Editor
 import androidx.compose.foundation.background
 import androidx.compose.foundation.hoverable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -19,7 +20,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.unit.dp
-import Editor
 import theme.Theme
 
 
@@ -28,12 +28,10 @@ import theme.Theme
  */
 abstract class DefaultWindow : Window {
 
-    private var selected = mutableStateOf(false)
+    var selected = mutableStateOf(false)
 
     @Composable
     override fun ui() {
-
-        selected.value = Editor.editor.leftTopWindowId.value == id()
 
         val interactionSource = remember { MutableInteractionSource() }
         val isHovered by interactionSource.collectIsHoveredAsState()
@@ -44,11 +42,25 @@ abstract class DefaultWindow : Window {
                 .pointerHoverIcon(icon = PointerIcon.Hand).hoverable(interactionSource)
                 .height(30.dp),
             onClick = {
-                if (position() == WindowPosition.LEFT_TOP) {
-                    Editor.editor.leftTopWindowId.value = id()
-                } else if (position() == WindowPosition.LEFT_BOTTOM) {
-                    Editor.editor.leftBottomWindowId.value = id()
+                Editor.editor.offAll(position(), id())
+                selected.value = !selected.value
+                val id = if (selected.value) id() else ""
+
+                when(position()){
+                    WindowPosition.RIGHT_TOP->{
+                        Editor.editor.rightTopWindowId.value = id
+                    }
+                    WindowPosition.LEFT_TOP -> {
+                        Editor.editor.leftTopWindowId.value = id
+                    }
+                    WindowPosition.LEFT_BOTTOM -> {
+                        Editor.editor.leftBottomWindowId.value = id
+                    }
+                    WindowPosition.RIGHT_BOTTOM -> {
+
+                    }
                 }
+
             }) {
             Icon(icon(), contentDescription = desc(), tint = color())
         }
