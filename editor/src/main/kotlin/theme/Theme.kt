@@ -49,7 +49,7 @@ class Theme {
 
 
     var dragHeight = 2
-    var dragWidth = 4
+    var dragWidth = 2
     var dragXColor = darkGery
     var dragYColor = darkGery
 
