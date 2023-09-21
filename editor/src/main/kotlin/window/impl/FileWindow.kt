@@ -1,9 +1,7 @@
 package window.impl
 
 import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,25 +18,10 @@ class FileWindow : DefaultWindow() {
 
     @Composable
     override fun windowUi() {
-        val scrollState = rememberScrollState()
-        // 构建一个滚动列表
-        Box(modifier = Modifier.fillMaxSize()) {
-
-            Box {
-                Column(
-                    Modifier.verticalScroll(scrollState).fillMaxSize()
-                        .background(color = Theme.lightGery)
-                ) {
-                    repeat(1000) {
-                        Text("Hello File #$it", color = Theme.fontColor)
-                    }
-                }
+        Column {
+            repeat(1000) {
+                Text("Hello File #$it", color = Theme.fontColor)
             }
-            VerticalScrollbar(
-                adapter = rememberScrollbarAdapter(scrollState),
-                Modifier.align(Alignment.CenterEnd),
-                style = Theme.scrollbarStyle()
-            )
         }
     }
 

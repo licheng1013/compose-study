@@ -122,7 +122,7 @@ class Editor : Ui {
                     Row(modifier = Modifier.weight(1f)) {
                         if (leftTopWindowId.value.isNotEmpty()) {
                             Box(Modifier.width(leftWindowWidth.value.dp)) {
-                                getWindowById(leftTopWindowId.value).windowUi()
+                                getWindowById(leftTopWindowId.value).layout()
                             }
                             Spacer(
                                 Modifier.fillMaxHeight().background(Color.White).width(1.dp)
@@ -180,7 +180,7 @@ class Editor : Ui {
                                         }
                                     })
                             Box(Modifier.width(rightWindowWidth.value.dp)) {
-                                getWindowById(rightTopWindowId.value).windowUi()
+                                getWindowById(rightTopWindowId.value).layout()
                             }
                         }
                     }
@@ -194,7 +194,7 @@ class Editor : Ui {
                                     }
                                 })
                         Box(Modifier.height(bottomWindowWidth.value.dp)) {
-                            getWindowById(leftBottomWindowId.value).windowUi()
+                            getWindowById(leftBottomWindowId.value).layout()
                         }
                     }
                 }

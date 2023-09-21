@@ -2,11 +2,14 @@ package open
 
 import androidx.compose.ui.awt.ComposeWindow
 import java.awt.FileDialog
+import java.io.File
+import javax.swing.JFileChooser
+
 
 class FileUtil {
 
-    companion object{
-        val  home: String = System.getProperty("user.home")
+    companion object {
+        val home: String = System.getProperty("user.home")
 
         fun openFile() {
             val dialog = FileDialog(null as ComposeWindow?)
@@ -16,14 +19,17 @@ class FileUtil {
             println("dir:${dir},file:${file}")
         }
 
-        fun openSingleDir(){
-            val dialog = FileDialog(null as ComposeWindow?)
-            // 只允许目录
-
-
-            dialog.isVisible = true
-            val dir = dialog.directory
-            val file = dialog.file
+        fun openSingleDir(): String {
+            val fileChooser = JFileChooser()
+            fileChooser.currentDirectory = File(home)
+            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY)
+            val option = fileChooser.showOpenDialog(null as ComposeWindow?)
+            if (option == JFileChooser.APPROVE_OPTION) {
+                val file = fileChooser.selectedFile
+                //println("dir:${file.absolutePath}")
+                return file.absolutePath
+            }
+            return ""
         }
     }
 }

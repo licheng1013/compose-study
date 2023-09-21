@@ -44,9 +44,7 @@ class Tool(private var name: String, var editor: Editor) : Ui {
                 .pointerHoverIcon(icon = PointerIcon.Hand).pointerInput(Unit) {
                     detectTapGestures(onTap = {
                         //调用文件窗口
-                        println("展开")
-                        //expanded.value = true
-                        FileUtil.openFile()
+                        val singleDir = FileUtil.openSingleDir()
                     })
                 }.hoverable(interactionSource = interactionSource)
         ) {

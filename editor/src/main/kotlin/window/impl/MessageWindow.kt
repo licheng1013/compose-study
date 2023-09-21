@@ -20,24 +20,12 @@ class MessageWindow : DefaultWindow() {
 
     @Composable
     override fun windowUi() {
-        // 构建一个滚动列表
-        Box(modifier = Modifier.fillMaxSize()){
-            val scrollState = rememberScrollState()
-            Box {
-                Column(
-                    Modifier.verticalScroll(scrollState).fillMaxSize()
-                        .background(color = Theme.lightGery)
-                ) {
-                    repeat(1000) {
-                        Text("Message #$it", color = Theme.fontColor)
-                    }
-                }
+        Column(
+
+        ) {
+            repeat(1000) {
+                Text("Message #$it", color = Theme.fontColor)
             }
-            VerticalScrollbar(
-                adapter = rememberScrollbarAdapter(scrollState),
-                Modifier.align(Alignment.CenterEnd),
-                style = Theme.scrollbarStyle()
-            )
         }
     }
 
@@ -53,7 +41,7 @@ class MessageWindow : DefaultWindow() {
     }
 
     override fun color(): Color {
-        return Color(109,213,128)
+        return Color(109, 213, 128)
     }
 
     override fun icon(): ImageVector {

@@ -23,23 +23,12 @@ class RunWindow : DefaultWindow() {
     @Composable
     override fun windowUi() {
         // 构建一个滚动列表
-        Box(modifier = Modifier.fillMaxSize()){
-            val scrollState = rememberScrollState()
-            Box {
-                Column(
-                    Modifier.verticalScroll(scrollState).fillMaxSize()
-                        .background(color = Theme.lightGery)
-                ) {
-                    repeat(1000) {
-                        Text("Run #$it", color = Theme.fontColor)
-                    }
-                }
+        Column(
+
+        ) {
+            repeat(1000) {
+                Text("Run #$it", color = Theme.fontColor)
             }
-            VerticalScrollbar(
-                adapter = rememberScrollbarAdapter(scrollState),
-                Modifier.align(Alignment.CenterEnd),
-                style = Theme.scrollbarStyle()
-            )
         }
     }
 

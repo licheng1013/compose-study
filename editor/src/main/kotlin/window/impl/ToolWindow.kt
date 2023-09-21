@@ -20,25 +20,11 @@ class ToolWindow : DefaultWindow() {
 
     @Composable
     override fun windowUi() {
-        val scrollState = rememberScrollState()
-        // 构建一个滚动列表
-        Box(modifier = Modifier.fillMaxSize()) {
-
-            Box {
-                Column(
-                    Modifier.verticalScroll(scrollState).fillMaxSize()
-                        .background(color = Theme.lightGery)
-                ) {
-                    repeat(1000) {
-                        Text("Hello Tool #$it", color = Theme.fontColor)
-                    }
-                }
+        Column(
+        ) {
+            repeat(1000) {
+                Text("Hello Tool #$it", color = Theme.fontColor)
             }
-            VerticalScrollbar(
-                adapter = rememberScrollbarAdapter(scrollState),
-                Modifier.align(Alignment.CenterEnd),
-                style = Theme.scrollbarStyle()
-            )
         }
     }
 
