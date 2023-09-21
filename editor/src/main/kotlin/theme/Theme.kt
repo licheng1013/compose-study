@@ -47,10 +47,10 @@ class Theme {
     }
 
 
-    var dragHeight = 1
-    var dragWidth = 1
-    var dragXColor = Color.White
-    var dragYColor = Color.White
+    var dragHeight = 2
+    var dragWidth = 4
+    var dragXColor = darkGery
+    var dragYColor = darkGery
 
 
     @Composable
