@@ -13,6 +13,7 @@ import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
+import java.awt.Cursor
 
 class Theme {
 
@@ -70,7 +71,7 @@ class Theme {
     fun dragY(y: (Float) -> Unit = {}) {
         Spacer(
             Modifier.fillMaxWidth().background(dragYColor).height(dragHeight.dp)
-                .pointerHoverIcon(PointerIcon.Hand).pointerInput(Unit) {
+                .pointerHoverIcon(nIcon).pointerInput(Unit) {
                     detectDragGestures { _, dragAmount ->
                         y(dragAmount.y)
                     }
@@ -81,10 +82,17 @@ class Theme {
     fun dragX(x: (Float) -> Unit = {}) {
         Spacer(
             Modifier.fillMaxHeight().background(dragXColor).width(dragWidth.dp)
-                .pointerHoverIcon(PointerIcon.Hand).pointerInput(Unit) {
+                .pointerHoverIcon(wIcon).pointerInput(Unit) {
                     detectDragGestures { _, dragAmount ->
                         x(dragAmount.x)
                     }
                 })
     }
+
+    // 上下光标
+    var nIcon: PointerIcon = PointerIcon(Cursor(Cursor.N_RESIZE_CURSOR))
+
+    // 左右光标
+    var wIcon: PointerIcon = PointerIcon(Cursor(Cursor.W_RESIZE_CURSOR))
 }
+
