@@ -24,7 +24,7 @@ class MessageWindow : DefaultWindow() {
 
         ) {
             repeat(10) {
-                Text("Message #$it", color = Theme.fontColor)
+                Text("Message #$it", color = Theme.getInstance().fontColor)
             }
         }
     }

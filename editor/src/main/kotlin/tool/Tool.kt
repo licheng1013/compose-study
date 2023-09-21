@@ -39,7 +39,7 @@ class Tool(private var name: String, var editor: Editor) : Ui {
         val interactionSource = remember { MutableInteractionSource() }
         val isHovered by interactionSource.collectIsHoveredAsState()
         Box(
-            modifier = Modifier.background(if (isHovered) Theme.hoverColor else Color.Transparent)
+            modifier = Modifier.background(if (isHovered) Theme.getInstance().hoverColor else Color.Transparent)
                 .padding(4.dp)
                 .pointerHoverIcon(icon = PointerIcon.Hand).pointerInput(Unit) {
                     detectTapGestures(onTap = {
@@ -53,7 +53,7 @@ class Tool(private var name: String, var editor: Editor) : Ui {
                 color = fontColor
             )
             DropdownMenu(
-                modifier = Modifier.background(color = Theme.lightGery),
+                modifier = Modifier.background(color = Theme.getInstance().lightGery),
                 expanded = expanded.value,
                 onDismissRequest = { expanded.value = false },
             ) {

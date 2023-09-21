@@ -47,10 +47,10 @@ fun FileTree(file: String, offsetX: Int = 0) {
 @Composable
 fun text(path: String, selected: MutableState<String>) {
     var name = FileUtil.getFileOrDirName(path)
-    var selectedColor = if (selected.value == path) Theme.selectedColor else Theme.lightGery
+    var selectedColor = if (selected.value == path) Theme.getInstance().selectedColor else Theme.getInstance().lightGery
     Text(
         name,
-        color = Theme.fontColor,
+        color = Theme.getInstance().fontColor,
         modifier = Modifier.pointerHoverIcon(PointerIcon.Hand)
             .pointerInput(Unit) {
                 detectTapGestures(

@@ -23,7 +23,7 @@ class ToolWindow : DefaultWindow() {
         Column(
         ) {
             repeat(100) {
-                Text("Hello Tool #$it", color = Theme.fontColor)
+                Text("Hello Tool #$it", color = Theme.getInstance().fontColor)
             }
         }
     }

@@ -27,7 +27,7 @@ class RunWindow : DefaultWindow() {
 
         ) {
             repeat(1000) {
-                Text("Run #$it", color = Theme.fontColor)
+                Text("Run #$it", color = Theme.getInstance().fontColor)
             }
         }
     }

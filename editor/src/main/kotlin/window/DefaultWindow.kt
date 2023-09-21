@@ -41,7 +41,7 @@ abstract class DefaultWindow : Window {
         val isHovered by interactionSource.collectIsHoveredAsState()
         IconButton(
             modifier = Modifier.background(
-                color = if (selected.value || isHovered) Theme.selectedColor else Theme.unselectedColor
+                color = if (selected.value || isHovered) Theme.getInstance().selectedColor else Theme.getInstance().unselectedColor
             )
                 .pointerHoverIcon(icon = PointerIcon.Hand).hoverable(interactionSource)
                 .height(30.dp),
@@ -100,14 +100,14 @@ abstract class DefaultWindow : Window {
         Box(modifier = Modifier.fillMaxSize()) {
             Box(
                 Modifier.verticalScroll(scrollStateY).fillMaxSize()
-                    .background(color = Theme.lightGery)
+                    .background(color = Theme.getInstance().lightGery)
             ) {
                 windowUi()
             }
             VerticalScrollbar(
                 adapter = rememberScrollbarAdapter(scrollStateY),
                 Modifier.align(Alignment.CenterEnd),
-                style = Theme.scrollbarStyle()
+                style = Theme.getInstance().scrollbarStyle()
             )
         }
     }

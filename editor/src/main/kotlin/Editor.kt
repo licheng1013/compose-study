@@ -34,10 +34,10 @@ class Editor : Ui {
     private val leftRightWidth = 30.dp
 
     // left or right color
-    private val toolColor = Theme.lightGery
+    private val toolColor = Theme.getInstance().lightGery
 
     // body color
-    private val bodyColor = Theme.darkGery
+    private val bodyColor = Theme.getInstance().darkGery
 
     // selected file bar
     val selectedFileIndex = mutableStateOf(0)
@@ -136,19 +136,13 @@ class Editor : Ui {
                         if (leftTopWindowId.value.isNotEmpty()) {
                             Box(
                                 Modifier.width(leftWindowWidth.value.dp).fillMaxHeight()
-                                    .background(color = Theme.lightGery)
+                                    .background(color = Theme.getInstance().lightGery)
                             ) {
                                 getWindowById(leftTopWindowId.value).layout()
                             }
-                            Spacer(
-                                Modifier.fillMaxHeight().background(Color.White).width(1.dp)
-                                    .pointerHoverIcon(PointerIcon.Hand).pointerInput(Unit) {
-                                        detectDragGestures { _, dragAmount ->
-                                            leftWindowWidth.value += dragAmount.x.toInt()
-                                        }
-                                    })
-
-
+                            Theme.getInstance().dragX {
+                                leftWindowWidth.value += it.toInt()
+                            }
                         }
 
                         // center park
@@ -166,7 +160,7 @@ class Editor : Ui {
                                 HorizontalScrollbar(
                                     adapter = rememberScrollbarAdapter(scrollState),
                                     Modifier.align(Alignment.BottomCenter),
-                                    style = Theme.scrollbarStyle()
+                                    style = Theme.getInstance().scrollbarStyle()
                                 )
                             }
                             horizontalSpacer()
@@ -185,23 +179,19 @@ class Editor : Ui {
                                 VerticalScrollbar(
                                     adapter = rememberScrollbarAdapter(scrollState),
                                     Modifier.align(Alignment.CenterEnd),
-                                    style = Theme.scrollbarStyle()
+                                    style = Theme.getInstance().scrollbarStyle()
                                 )
                             }
 
                         }
 
                         if (rightTopWindowId.value.isNotEmpty()) {
-                            Spacer(
-                                Modifier.fillMaxHeight().background(Color.White).width(1.dp)
-                                    .pointerHoverIcon(PointerIcon.Hand).pointerInput(Unit) {
-                                        detectDragGestures { _, dragAmount ->
-                                            rightWindowWidth.value -= dragAmount.x.toInt()
-                                        }
-                                    })
+                            Theme.getInstance().dragX {
+                                rightWindowWidth.value -= it.toInt()
+                            }
                             Box(
                                 Modifier.width(rightWindowWidth.value.dp).fillMaxHeight()
-                                    .background(color = Theme.lightGery)
+                                    .background(color = Theme.getInstance().lightGery)
                             ) {
                                 getWindowById(rightTopWindowId.value).layout()
                             }
@@ -209,16 +199,12 @@ class Editor : Ui {
                     }
 
                     if (leftBottomWindowId.value.isNotEmpty()) {
-                        Spacer(
-                            Modifier.fillMaxWidth().background(Color.White).height(1.dp)
-                                .pointerHoverIcon(PointerIcon.Hand).pointerInput(Unit) {
-                                    detectDragGestures { _, dragAmount ->
-                                        bottomWindowWidth.value -= dragAmount.y.toInt()
-                                    }
-                                })
+                        Theme.getInstance().dragY {
+                            bottomWindowWidth.value -= it.toInt()
+                        }
                         Box(
                             Modifier.height(bottomWindowWidth.value.dp).fillMaxWidth()
-                                .background(color = Theme.lightGery)
+                                .background(color = Theme.getInstance().lightGery)
                         ) {
                             getWindowById(leftBottomWindowId.value).layout()
                         }
