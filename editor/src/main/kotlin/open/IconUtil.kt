@@ -15,12 +15,12 @@ import theme.ThemeIcon
 class IconUtil {
     companion object {
         @Composable
-        fun icon(path: String = ThemeIcon.getInstance().box,color: Color = Color.White) {
+        fun icon(path: String = ThemeIcon.getInstance().box, color: Color = Color.White, size: Int = 16) {
             Image(
                 painter = painterResource(path),
                 contentDescription = null,
                 modifier = Modifier
-                    .size(16.dp),
+                    .size(size.dp),
                 colorFilter = ColorFilter.tint(color)
             )
         }

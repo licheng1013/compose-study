@@ -8,9 +8,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import theme.Theme
 import tool.Tool
 import ui.Ui
+import ui.document.DefaultDocument
+import ui.document.EmptyDocument
+import ui.document.FileDocument
 import ui.window.DefaultWindow
 import ui.window.WindowPosition
 import window.FileWindow
@@ -34,15 +38,13 @@ class Editor : Ui {
     // body color
     private val bodyColor = Theme.getInstance().darkGery
 
-    // selected file bar
-    val selectedFileIndex = mutableStateOf(0)
 
     // left action index
     val leftActionIndex = mutableStateOf(0)
 
-    // left action list
     private val windowList = mutableStateListOf<DefaultWindow>()
-
+    private val documentList = mutableStateListOf<DefaultDocument>()
+    val documentId = mutableStateOf("")
 
     private var leftWindowWidth = mutableStateOf(200)
     private var rightWindowWidth = mutableStateOf(200)
@@ -59,9 +61,23 @@ class Editor : Ui {
         windowList.add(ToolWindow())
         leftTopWindowId.value = windowList.first().id()
         windowList.first().selected.value = true
-
         checkWindowId()
+
+        repeat(5) {
+            addDocument(FileDocument(it.toString()))
+        }
     }
+
+    private fun addDocument(document: DefaultDocument) {
+        // check
+        for (doc in documentList) {
+            if (doc.id() == document.id()) {
+                throw RuntimeException("Document id is repeat")
+            }
+        }
+        documentList.add(document)
+    }
+
 
     private fun checkWindowId() {
         // 检查窗口id是否重复
@@ -72,6 +88,15 @@ class Editor : Ui {
             }
             idList.add(window.id())
         }
+    }
+
+    private fun getDocumentById(id: String): DefaultDocument {
+        for (document in documentList) {
+            if (document.id() == id) {
+                return document
+            }
+        }
+        return EmptyDocument()
     }
 
 
@@ -148,8 +173,8 @@ class Editor : Ui {
                                     modifier = Modifier.fillMaxHeight().horizontalScroll(scrollState),
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
-                                    repeat(5) {
-                                        FileBar("Demo.kt", it == selectedFileIndex.value, it).ui()
+                                    repeat(documentList.size) {
+                                        FileBar(documentList[it], documentId).ui()
                                     }
                                 }
                                 HorizontalScrollbar(
@@ -159,25 +184,17 @@ class Editor : Ui {
                                 )
                             }
                             horizontalSpacer()
-                            Box(modifier = Modifier.weight(1f)) {
-                                // 构建一个滚动列表
-                                val scrollState = rememberScrollState()
-                                Box {
-                                    Column(
-                                        Modifier.verticalScroll(scrollState).fillMaxWidth()
-                                    ) {
-                                        repeat(5) {
-                                            Text("Hello body #$it", color = fontColor)
-                                        }
-                                    }
+                            when (documentId.value.isEmpty()) {
+                                true -> Column(
+                                    modifier = Modifier.fillMaxSize(),
+                                    verticalArrangement = Arrangement.Center,
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    Text("No document", color = Theme.getInstance().fontColor, fontSize = 32.sp)
                                 }
-                                VerticalScrollbar(
-                                    adapter = rememberScrollbarAdapter(scrollState),
-                                    Modifier.align(Alignment.CenterEnd),
-                                    style = Theme.getInstance().scrollbarStyle()
-                                )
-                            }
 
+                                false -> getDocumentById(documentId.value).layout()
+                            }
                         }
 
                         if (rightTopWindowId.value.isNotEmpty()) {
@@ -252,6 +269,22 @@ class Editor : Ui {
                 window.selected.value = false
             }
         }
+    }
+
+    fun removeDocument(documentId: String) {
+        // first document id
+        var firstDocumentId = ""
+        for (document in documentList) {
+            if (document.id() == documentId) {
+                documentList.remove(document)
+                break
+            }
+            firstDocumentId = document.id()
+        }
+        if (firstDocumentId.isEmpty() && documentList.isNotEmpty()) {
+            firstDocumentId = documentList.first().id()
+        }
+        this.documentId.value = firstDocumentId
     }
 
     companion object {
