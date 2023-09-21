@@ -1,3 +1,4 @@
+
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
@@ -14,7 +15,6 @@ import tool.Tool
 import ui.Ui
 import ui.document.DefaultDocument
 import ui.document.EmptyDocument
-import ui.document.FileDocument
 import ui.window.DefaultWindow
 import ui.window.WindowPosition
 import window.FileWindow
@@ -44,7 +44,7 @@ class Editor : Ui {
 
     private val windowList = mutableStateListOf<DefaultWindow>()
     private val documentList = mutableStateListOf<DefaultDocument>()
-    val documentId = mutableStateOf("")
+    private val documentId = mutableStateOf("")
 
     private var leftWindowWidth = mutableStateOf(200)
     private var rightWindowWidth = mutableStateOf(200)
@@ -63,19 +63,22 @@ class Editor : Ui {
         windowList.first().selected.value = true
         checkWindowId()
 
-        repeat(5) {
-            addDocument(FileDocument(it.toString()))
-        }
     }
 
     private fun addDocument(document: DefaultDocument) {
         // check
         for (doc in documentList) {
             if (doc.id() == document.id()) {
-                throw RuntimeException("Document id is repeat")
+                println("Document id is repeat")
+                return
             }
         }
         documentList.add(document)
+    }
+
+    fun addDocumentWithSelect(document: DefaultDocument) {
+        addDocument(document)
+        documentId.value = document.id()
     }
 
 

@@ -3,6 +3,7 @@ package open
 import androidx.compose.ui.awt.ComposeWindow
 import java.awt.FileDialog
 import java.io.File
+import java.io.FileReader
 import javax.swing.JFileChooser
 
 
@@ -51,5 +52,33 @@ class FileUtil {
             val files = File(file).listFiles()
             return files.toMutableList()
         }
+
+        fun loadFileLine(path: String): List<String> {
+            val file = File(path)
+            val reader = FileReader(file)
+            val list = reader.readLines();
+            reader.close()
+            return list;
+        }
+
+        fun loadFile(path: String): String {
+            val file = File(path)
+            val reader = FileReader(file)
+            val text = reader.readText();
+            reader.close()
+            return text;
+        }
+
+        fun maxLineLength(path: String):Int{
+            val list = loadFileLine(path)
+            var maxLineLength = 0
+            list.forEach{
+                if (it.length > maxLineLength){
+                    maxLineLength = it.length
+                }
+            }
+            return maxLineLength
+        }
+
     }
 }

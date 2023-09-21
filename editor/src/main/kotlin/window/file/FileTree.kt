@@ -1,5 +1,6 @@
 package window.file
 
+import Editor
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
@@ -18,6 +19,7 @@ import open.FileUtil
 import open.IconUtil
 import theme.Theme
 import theme.ThemeIcon
+import ui.document.FileDocument
 
 
 @Composable
@@ -55,6 +57,9 @@ fun text(path: String, selected: MutableState<String>, offsetX: Int) {
             detectTapGestures(
                 onTap = {
                     selected.value = path
+                    if (!isDirectory) {
+                        Editor.editor.addDocumentWithSelect(FileDocument(path))
+                    }
                 }
             )
         }
