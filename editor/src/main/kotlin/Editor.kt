@@ -166,7 +166,7 @@ class Editor : Ui {
                         }
 
                         // center park
-                        Column(modifier = Modifier.weight(1f).fillMaxHeight().background(color = bodyColor)) {
+                        Column(modifier = Modifier.weight(1f).background(color = bodyColor)) {
                             Box(modifier = Modifier.height(40.dp)) {
                                 val scrollState = rememberScrollState()
                                 Row(

@@ -18,6 +18,9 @@ import java.awt.Cursor
 class Theme {
 
 
+    // 代码垂直线颜色
+    val verticalLineColor = Color(57, 59, 64)
+
     // 用于非主要区域 - 浅灰色
     val lightGery = Color(43, 45, 48)
 
