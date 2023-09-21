@@ -15,14 +15,14 @@ import window.WindowPosition
 
 class ToolWindow : DefaultWindow() {
     override fun id(): String {
-        return "FILE"
+        return "TOOL"
     }
 
     @Composable
     override fun windowUi() {
         Column(
         ) {
-            repeat(1000) {
+            repeat(100) {
                 Text("Hello Tool #$it", color = Theme.fontColor)
             }
         }

@@ -62,10 +62,23 @@ class Editor : Ui {
         windowList.add(MessageWindow())
         windowList.add(RunWindow())
         windowList.add(ToolWindow())
-
         leftTopWindowId.value = windowList.first().id()
         windowList.first().selected.value = true
+
+        checkWindowId()
     }
+
+    private fun checkWindowId() {
+        // 检查窗口id是否重复
+        val idList = mutableListOf<String>()
+        for (window in windowList) {
+            if (idList.contains(window.id())) {
+                throw RuntimeException("Window id is repeat")
+            }
+            idList.add(window.id())
+        }
+    }
+
 
     private fun getWindowById(id: String): DefaultWindow {
         for (window in windowList) {
