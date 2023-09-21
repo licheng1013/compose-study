@@ -121,7 +121,10 @@ class Editor : Ui {
                 Column(modifier = Modifier.weight(1f)) {
                     Row(modifier = Modifier.weight(1f)) {
                         if (leftTopWindowId.value.isNotEmpty()) {
-                            Box(Modifier.width(leftWindowWidth.value.dp)) {
+                            Box(
+                                Modifier.width(leftWindowWidth.value.dp).fillMaxHeight()
+                                    .background(color = Theme.lightGery)
+                            ) {
                                 getWindowById(leftTopWindowId.value).layout()
                             }
                             Spacer(
@@ -131,13 +134,18 @@ class Editor : Ui {
                                             leftWindowWidth.value += dragAmount.x.toInt()
                                         }
                                     })
+
+
                         }
 
                         // center park
                         Column(modifier = Modifier.weight(1f).fillMaxHeight().background(color = bodyColor)) {
-                            Box(modifier = Modifier.height(40.dp)){
+                            Box(modifier = Modifier.height(40.dp)) {
                                 val scrollState = rememberScrollState()
-                                Row(modifier = Modifier.fillMaxHeight().horizontalScroll(scrollState), verticalAlignment = Alignment.CenterVertically) {
+                                Row(
+                                    modifier = Modifier.fillMaxHeight().horizontalScroll(scrollState),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
                                     repeat(5) {
                                         FileBar("Demo.kt", it == selectedFileIndex.value, it).ui()
                                     }
@@ -148,7 +156,6 @@ class Editor : Ui {
                                     style = Theme.scrollbarStyle()
                                 )
                             }
-
                             horizontalSpacer()
                             Box(modifier = Modifier.weight(1f)) {
                                 // 构建一个滚动列表
@@ -157,7 +164,7 @@ class Editor : Ui {
                                     Column(
                                         Modifier.verticalScroll(scrollState).fillMaxWidth()
                                     ) {
-                                        repeat(1000) {
+                                        repeat(5) {
                                             Text("Hello body #$it", color = fontColor)
                                         }
                                     }
@@ -179,7 +186,10 @@ class Editor : Ui {
                                             rightWindowWidth.value -= dragAmount.x.toInt()
                                         }
                                     })
-                            Box(Modifier.width(rightWindowWidth.value.dp)) {
+                            Box(
+                                Modifier.width(rightWindowWidth.value.dp).fillMaxHeight()
+                                    .background(color = Theme.lightGery)
+                            ) {
                                 getWindowById(rightTopWindowId.value).layout()
                             }
                         }
@@ -193,7 +203,10 @@ class Editor : Ui {
                                         bottomWindowWidth.value -= dragAmount.y.toInt()
                                     }
                                 })
-                        Box(Modifier.height(bottomWindowWidth.value.dp)) {
+                        Box(
+                            Modifier.height(bottomWindowWidth.value.dp).fillMaxWidth()
+                                .background(color = Theme.lightGery)
+                        ) {
                             getWindowById(leftBottomWindowId.value).layout()
                         }
                     }
