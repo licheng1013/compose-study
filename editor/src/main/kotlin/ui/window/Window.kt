@@ -1,4 +1,4 @@
-package window
+package ui.window
 
 import androidx.compose.runtime.Composable
 

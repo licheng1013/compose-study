@@ -1,5 +1,4 @@
 import androidx.compose.foundation.*
-import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -7,21 +6,17 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.PointerIcon
-import androidx.compose.ui.input.pointer.pointerHoverIcon
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import theme.Theme
 import tool.Tool
 import ui.Ui
-import window.DefaultWindow
-import window.WindowPosition
-import window.impl.FileWindow
-import window.impl.MessageWindow
-import window.impl.RunWindow
-import window.impl.ToolWindow
+import ui.window.DefaultWindow
+import ui.window.WindowPosition
+import window.FileWindow
+import window.MessageWindow
+import window.RunWindow
+import window.ToolWindow
 
 class Editor : Ui {
     // header height

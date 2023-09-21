@@ -1,17 +1,10 @@
-package window.impl
+package window
 
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import open.FileUtil
-import theme.Theme
-import window.DefaultWindow
-import window.WindowPosition
-import window.impl.file.FileTree
+import ui.window.DefaultWindow
+import ui.window.WindowPosition
+import window.file.FileTree
 
 class FileWindow : DefaultWindow() {
     override fun id(): String {

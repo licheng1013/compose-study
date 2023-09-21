@@ -1,4 +1,4 @@
-package window
+package ui.window
 
 /**
  * 窗口位置枚举

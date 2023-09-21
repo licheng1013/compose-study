@@ -1,4 +1,4 @@
-package window.impl.file
+package window.file
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
