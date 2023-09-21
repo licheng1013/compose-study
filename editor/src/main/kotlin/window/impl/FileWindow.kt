@@ -7,9 +7,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import open.FileUtil
 import theme.Theme
 import window.DefaultWindow
 import window.WindowPosition
+import window.impl.file.FileTree
 
 class FileWindow : DefaultWindow() {
     override fun id(): String {
@@ -18,11 +20,7 @@ class FileWindow : DefaultWindow() {
 
     @Composable
     override fun windowUi() {
-        Column {
-            repeat(1000) {
-                Text("Hello File #$it", color = Theme.fontColor)
-            }
-        }
+        FileTree("D:\\my-study\\java-study")
     }
 
     /**

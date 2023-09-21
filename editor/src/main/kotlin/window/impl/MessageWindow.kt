@@ -23,7 +23,7 @@ class MessageWindow : DefaultWindow() {
         Column(
 
         ) {
-            repeat(1000) {
+            repeat(10) {
                 Text("Message #$it", color = Theme.fontColor)
             }
         }

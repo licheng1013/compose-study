@@ -31,5 +31,25 @@ class FileUtil {
             }
             return ""
         }
+
+        fun isDirectory(path: String): Boolean {
+            val file = File(path)
+            return file.exists() && file.isDirectory
+        }
+
+        fun isFile(path: String): Boolean {
+            val file = File(path)
+            return file.exists() && file.isFile
+        }
+
+        fun getFileOrDirName(path: String): String {
+            val file = File(path)
+            return file.name
+        }
+
+        fun listFile(file: String): MutableList<File> {
+            val files = File(file).listFiles()
+            return files.toMutableList()
+        }
     }
 }

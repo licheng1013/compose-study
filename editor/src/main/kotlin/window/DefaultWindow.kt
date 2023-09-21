@@ -87,6 +87,9 @@ abstract class DefaultWindow : Window {
 
     abstract fun id(): String
 
+    /**
+     * 已经实现了窗口的滚动
+     */
     @Composable
     abstract fun windowUi()
 
