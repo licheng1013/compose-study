@@ -21,6 +21,7 @@ dependencies {
     // With compose.desktop.common you will also lose @Preview functionality
     implementation(compose.desktop.currentOs)
     implementation("com.alibaba:fastjson:2.0.32")
+    implementation("org.antlr:antlr4:4.13.1")
 }
 
 compose.desktop {
