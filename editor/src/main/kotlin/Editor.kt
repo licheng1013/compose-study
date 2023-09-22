@@ -1,4 +1,3 @@
-
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
@@ -10,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import data.DataManager
 import theme.Theme
 import tool.Tool
 import ui.Ui
@@ -42,7 +42,7 @@ class Editor : Ui {
     // left action index
     val leftActionIndex = mutableStateOf(0)
 
-    private val windowList = mutableStateListOf<DefaultWindow>()
+    val windowList = mutableStateListOf<DefaultWindow>()
     private val documentList = mutableStateListOf<DefaultDocument>()
     private val documentId = mutableStateOf("")
 
@@ -59,11 +59,33 @@ class Editor : Ui {
         windowList.add(MessageWindow())
         windowList.add(RunWindow())
         windowList.add(ToolWindow())
-        leftTopWindowId.value = windowList.first().id()
-        windowList.first().selected.value = true
         checkWindowId()
 
+        val manager = DataManager.getInstance()
+        if (manager.openPath.isNotEmpty()) {
+            windowList.forEach {
+                if (it is FileWindow) {
+                    it.path.value = manager.openPath
+                    openWindowById(it.id())
+                }
+            }
+        }
     }
+
+    fun openWindowById(id: String) {
+        for (window in windowList) {
+            if (window.id() == id) {
+                window.selected.value = true
+                when (window.position()) {
+                    WindowPosition.LEFT_TOP -> leftTopWindowId.value = window.id()
+                    WindowPosition.LEFT_BOTTOM -> leftBottomWindowId.value = window.id()
+                    WindowPosition.RIGHT_TOP -> rightTopWindowId.value = window.id()
+                    WindowPosition.RIGHT_BOTTOM -> TODO()
+                }
+            }
+        }
+    }
+
 
     private fun addDocument(document: DefaultDocument) {
         // check

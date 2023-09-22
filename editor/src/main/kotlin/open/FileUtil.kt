@@ -80,5 +80,15 @@ class FileUtil {
             return maxLineLength
         }
 
+        fun isExist(readPath: String): Boolean {
+            val file = File(readPath)
+            return file.exists()
+        }
+
+        fun saveFile(savePath: String, json: String) {
+            val file = File(savePath)
+            file.writeText(json)
+        }
+
     }
 }

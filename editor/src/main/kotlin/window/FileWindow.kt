@@ -1,6 +1,7 @@
 package window
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import ui.window.DefaultWindow
 import ui.window.WindowPosition
@@ -11,9 +12,13 @@ class FileWindow : DefaultWindow() {
         return "FILE"
     }
 
+    var path = mutableStateOf("")
+
     @Composable
     override fun windowUi() {
-        FileTree("D:\\my-study\\java-study\\sb-web")
+        if (path.value.isNotEmpty()) {
+            FileTree(path.value)
+        }
     }
 
     /**

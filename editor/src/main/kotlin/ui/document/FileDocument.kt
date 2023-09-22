@@ -64,16 +64,16 @@ class FileDocument(val id: String) : DefaultDocument() {
                 textAlign = TextAlign.End
             )
             Spacer(Modifier.width(8.dp))
-            TextField(
-                textFieldValue.value,
-                colors = colors(),
-                onValueChange = {
-                    textFieldValue.value = it
-                    println(textFieldValue.value.length)
-                },
-                modifier = Modifier.fillMaxSize().background(Theme.getInstance().darkGery)
-            )
-//            Text(annotatedCode, color = Theme.getInstance().fontColor)
+//            TextField(
+//                textFieldValue.value,
+//                colors = colors(),
+//                onValueChange = {
+//                    textFieldValue.value = it
+//                    println(textFieldValue.value.length)
+//                },
+//                modifier = Modifier.fillMaxSize().background(Theme.getInstance().darkGery)
+//            )
+            Text(annotatedCode, color = Theme.getInstance().fontColor)
         }
 
     }

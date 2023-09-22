@@ -24,9 +24,11 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import Editor
+import data.DataManager
 import open.FileUtil
 import theme.Theme
 import ui.Ui
+import window.FileWindow
 
 class Tool(private var name: String, var editor: Editor) : Ui {
 
@@ -45,6 +47,17 @@ class Tool(private var name: String, var editor: Editor) : Ui {
                     detectTapGestures(onTap = {
                         //调用文件窗口
                         val singleDir = FileUtil.openSingleDir()
+                        if (singleDir.isNotEmpty()) {
+                            val dataManager = DataManager.getInstance()
+                            dataManager.openPath = singleDir
+                            dataManager.save()
+                            Editor.editor.windowList.forEach {
+                                if (it is FileWindow) {
+                                    it.path.value = singleDir
+                                    Editor.editor.openWindowById(it.id())
+                                }
+                            }
+                        }
                     })
                 }.hoverable(interactionSource = interactionSource)
         ) {
