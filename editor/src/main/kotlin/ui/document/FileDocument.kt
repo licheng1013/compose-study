@@ -1,12 +1,10 @@
 package ui.document
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldColors
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -17,6 +15,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import highlight.Highlight
 import open.FileUtil
 import theme.Theme
 
@@ -34,16 +33,13 @@ class FileDocument(val id: String) : DefaultDocument() {
 
     @Composable
     override fun ui() {
-        val file = FileUtil.loadFile(id)
-        val code = file.trimIndent()
+        val body = FileUtil.loadFile(id)
+        val code = body.trimIndent()
 
-        val whiteStyle = SpanStyle(color = Color.White)
-        val stringStyle = SpanStyle(color = Color.Red)
-        val annotatedCode = buildAnnotatedString {
-            append(code)
-            addStyle(stringStyle, start = 0, end = 3)
-            addStyle(whiteStyle, start = 3, end = code.length)
-        }
+
+
+
+        var annotatedCode = Highlight.highlight(code,id)
         textFieldValue.value = annotatedCode.toString()
 
 
