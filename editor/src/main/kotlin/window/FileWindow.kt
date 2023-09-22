@@ -13,7 +13,7 @@ class FileWindow : DefaultWindow() {
 
     @Composable
     override fun windowUi() {
-        FileTree("D:\\my-study\\java-study")
+        FileTree("D:\\my-study\\java-study\\sb-web")
     }
 
     /**
