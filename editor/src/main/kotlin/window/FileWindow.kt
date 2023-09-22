@@ -13,7 +13,7 @@ class FileWindow : DefaultWindow() {
 
     @Composable
     override fun windowUi() {
-        FileTree("D:\\IdeaProjects\\orm-test")
+        FileTree("D:\\my-study\\java-study")
     }
 
     /**
