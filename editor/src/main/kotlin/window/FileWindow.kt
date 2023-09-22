@@ -17,7 +17,7 @@ class FileWindow : DefaultWindow() {
     @Composable
     override fun windowUi() {
         if (path.value.isNotEmpty()) {
-            FileTree(path.value)
+            FileTree(path.value).ui()
         }
     }
 

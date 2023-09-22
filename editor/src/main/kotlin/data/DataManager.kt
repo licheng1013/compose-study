@@ -2,7 +2,6 @@ package data
 
 import com.alibaba.fastjson2.JSON
 import open.FileUtil
-import window.file.FileTree
 
 class DataManager {
     var openPath = ""
