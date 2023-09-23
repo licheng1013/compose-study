@@ -5,11 +5,11 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 
-class XmlHighlight : Highlight {
+class JavaHighlight : Highlight {
 
     override fun highlight(code: String): AnnotatedString {
         val whiteStyle = SpanStyle(color = Color.White)
-        val stringStyle = SpanStyle(color = Color.Red)
+        val stringStyle = SpanStyle(color = Color(204, 108, 61))
         var annotatedCode = buildAnnotatedString {
             append(code)
             addStyle(stringStyle, start = 0, end = 3)
@@ -19,7 +19,7 @@ class XmlHighlight : Highlight {
     }
 
     override fun suffix(): String {
-        return ".xml"
+        return ".java"
     }
 
 }
