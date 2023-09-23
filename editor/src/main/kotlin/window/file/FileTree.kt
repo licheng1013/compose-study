@@ -127,7 +127,7 @@ class FileTree(var file: String) : Ui {
                 val isOpen = openList.contains(index)
 
                 if (isDirectory) {
-                    if (select && isOpen) {
+                    if (isOpen) {
                         IconUtil.icon(ThemeIcon.getInstance().arrowDown)
                     } else {
                         IconUtil.icon(ThemeIcon.getInstance().arrowRight)
