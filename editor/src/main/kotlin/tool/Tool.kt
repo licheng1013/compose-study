@@ -30,7 +30,7 @@ import theme.Theme
 import ui.Ui
 import window.FileWindow
 
-class Tool(private var name: String, var editor: Editor) : Ui {
+class Tool(private var name: String) : Ui {
 
     private val methodItems = listOf("Open Folder", "Exit")
     private val methodIndex = mutableStateOf(0)

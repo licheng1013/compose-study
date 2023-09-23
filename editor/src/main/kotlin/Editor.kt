@@ -1,9 +1,8 @@
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Switch
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
@@ -155,11 +154,12 @@ class Editor : Ui {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 localSpacer(leftRightWidth)
-                Tool("File", this@Editor).ui()
+                Tool("File").ui()
                 localSpacer()
-                Tool("Edit", this@Editor).ui()
+                Tool("Edit").ui()
                 localSpacer()
-                Tool("About", this@Editor).ui()
+                Tool("About").ui()
+                localSpacer()
             }
 
             horizontalSpacer()
