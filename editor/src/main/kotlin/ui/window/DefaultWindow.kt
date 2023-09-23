@@ -91,9 +91,10 @@ abstract class DefaultWindow : Window {
     @Composable
     abstract fun windowUi()
 
+    val scrollStateY = ScrollState(0)
+
     @Composable
     open fun layout() {
-        val scrollStateY = rememberScrollState()
         // 构建一个滚动列表
         Box(modifier = Modifier.fillMaxSize()) {
             Box(

@@ -12,12 +12,20 @@ class FileWindow : DefaultWindow() {
         return "FILE"
     }
 
-    var path = mutableStateOf("")
+    private var path = mutableStateOf("")
+
+    private var fileTree = FileTree(path.value)
+
+    fun selectPath(path: String) {
+        fileTree = FileTree(path)
+        this.path.value = path
+    }
+
 
     @Composable
     override fun windowUi() {
         if (path.value.isNotEmpty()) {
-            FileTree(path.value).ui()
+            fileTree.ui()
         }
     }
 

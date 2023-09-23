@@ -53,7 +53,7 @@ class Tool(private var name: String) : Ui {
                             dataManager.save()
                             Editor.editor.windowList.forEach {
                                 if (it is FileWindow) {
-                                    it.path.value = singleDir
+                                    it.selectPath(singleDir)
                                     Editor.editor.openWindowById(it.id())
                                 }
                             }

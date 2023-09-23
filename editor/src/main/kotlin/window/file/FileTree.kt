@@ -34,11 +34,16 @@ class FileTree(var file: String) : Ui {
     val openList = mutableStateListOf<String>()
     val defaultOpen = "0${file}"
 
-    @Composable
-    override fun ui() {
+    init {
         selected.value = defaultOpen
         openList.add(defaultOpen)
-        fileTree(file)
+    }
+
+    @Composable
+    override fun ui() {
+        if (file.isNotEmpty()) {
+            fileTree(file)
+        }
     }
 
     @Composable

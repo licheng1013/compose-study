@@ -64,7 +64,7 @@ class Editor : Ui {
         if (manager.openPath.isNotEmpty()) {
             windowList.forEach {
                 if (it is FileWindow) {
-                    it.path.value = manager.openPath
+                    it.selectPath(manager.openPath)
                     openWindowById(it.id())
                 }
             }
