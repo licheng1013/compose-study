@@ -1,17 +1,19 @@
 package theme
 
-import androidx.compose.foundation.LocalScrollbarStyle
-import androidx.compose.foundation.ScrollbarStyle
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shader
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import java.awt.Cursor
 
@@ -38,6 +40,16 @@ class Theme {
 
     // 鼠标移动上去颜色
     val hoverColor = Color(65, 66, 69)
+
+
+    // 设置圆角
+    fun border(): Modifier {
+        return Modifier.border(
+            1.dp, color = hoverColor,
+            shape = RoundedCornerShape(6.dp)
+        )
+    }
+
 
     companion object {
         private var Theme = Theme()

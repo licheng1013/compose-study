@@ -1,5 +1,7 @@
 package window.file
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.TooltipArea
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
@@ -20,7 +22,6 @@ import open.IconUtil
 import theme.Theme
 import theme.ThemeIcon
 import ui.Ui
-import ui.document.FileDocument
 
 
 class FileTree(var file: String) : Ui {
@@ -29,11 +30,14 @@ class FileTree(var file: String) : Ui {
         private const val OFFSET_X = 8
     }
 
-    val selected = mutableStateOf("0${file}")
+    val selected = mutableStateOf("")
     val openList = mutableStateListOf<String>()
+    val defaultOpen = "0${file}"
 
     @Composable
     override fun ui() {
+        selected.value = defaultOpen
+        openList.add(defaultOpen)
         fileTree(file)
     }
 
@@ -50,26 +54,30 @@ class FileTree(var file: String) : Ui {
                 }
             }
 
-            Row(Modifier.fillMaxHeight()) {
-                Column(modifier = Modifier.weight(1f)) {
-                    val list = FileUtil.listFile(file)
-                    val offset = offsetX + OFFSET_X
-                    list.forEach {
-                        if (it.isDirectory) {
-                            text(it.path, selected, offset)
-                            if (openList.contains("$offset${it.path}")) {
-                                fileTree(it.path, offset)
+            if (openList.contains(defaultOpen)) {
+                Row(Modifier.fillMaxHeight()) {
+                    Column(modifier = Modifier.weight(1f)) {
+                        val list = FileUtil.listFile(file)
+                        val offset = offsetX + OFFSET_X
+                        list.forEach {
+                            if (it.isDirectory) {
+                                text(it.path, selected, offset)
+                                if (openList.contains("$offset${it.path}")) {
+                                    fileTree(it.path, offset)
+                                }
+                            } else {
+                                text(it.path, selected, offset)
                             }
-                        } else {
-                            text(it.path, selected, offset)
                         }
                     }
                 }
             }
+
         }
     }
 
 
+    @OptIn(ExperimentalFoundationApi::class)
     @Composable
     fun text(path: String, selected: MutableState<String>, offsetX: Int) {
         var name = FileUtil.getFileOrDirName(path)
@@ -79,59 +87,71 @@ class FileTree(var file: String) : Ui {
         val isDirectory = FileUtil.isDirectory(path)
         var selectedColor = if (select) Theme.getInstance().selectedColor else Theme.getInstance().lightGery
 
-        Row(modifier = Modifier.pointerHoverIcon(PointerIcon.Hand)
-            .pointerInput(Unit) {
-                detectTapGestures(
-                    onTap = {
-                        selected.value = index
-                        println("Click $index")
-                        if (isDirectory) {
-                            if (openList.contains(index)) {
-                                openList.remove(index)
+        TooltipArea(
+            tooltip = {
+                Column(
+                    Theme.getInstance().border().height(30.dp)
+                        .background(Theme.getInstance().lightGery),
+                    verticalArrangement = Arrangement.Center,
+                ) {
+                    Text(path, color = Theme.getInstance().fontColor, modifier = Modifier.padding(horizontal = 6.dp))
+                }
+            },
+        ) {
+            Row(modifier = Modifier.pointerHoverIcon(PointerIcon.Hand)
+                .pointerInput(Unit) {
+                    detectTapGestures(
+                        onTap = {
+                            selected.value = index
+                            //println("Click $index")
+                            if (isDirectory) {
+                                if (openList.contains(index)) {
+                                    openList.remove(index)
+                                } else {
+                                    openList.add(index)
+                                }
                             } else {
-                                openList.add(index)
+                                //Editor.editor.addDocumentWithSelect(FileDocument(path))
                             }
-                        } else {
-                            //Editor.editor.addDocumentWithSelect(FileDocument(path))
                         }
+                    )
+                }
+                .height(26.dp)
+                .background(selectedColor).fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Spacer(Modifier.width(3.dp))
+                Spacer(Modifier.width(offsetX.dp))
+
+                // 是否已经打开
+                val isOpen = openList.contains(index)
+
+                if (isDirectory) {
+                    if (select && isOpen) {
+                        IconUtil.icon(ThemeIcon.getInstance().arrowDown)
+                    } else {
+                        IconUtil.icon(ThemeIcon.getInstance().arrowRight)
                     }
+                } else {
+                    IconUtil.icon(ThemeIcon.getInstance().box, Color.Transparent)
+                }
+
+
+                when (isDirectory) {
+                    true -> {
+                        IconUtil.icon(ThemeIcon.getInstance().folder)
+                    }
+
+                    false -> {
+                        IconUtil.icon(ThemeIcon.getInstance().file)
+                    }
+                }
+                Spacer(Modifier.width(3.dp))
+                Text(
+                    name,
+                    color = Theme.getInstance().fontColor,
                 )
             }
-            .height(26.dp)
-            .background(selectedColor).fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Spacer(Modifier.width(3.dp))
-            Spacer(Modifier.width(offsetX.dp))
-
-            // 是否已经打开
-            val isOpen = openList.contains(index)
-
-            if (isDirectory) {
-                if (select && isOpen) {
-                    IconUtil.icon(ThemeIcon.getInstance().arrowDown)
-                } else {
-                    IconUtil.icon(ThemeIcon.getInstance().arrowRight)
-                }
-            } else {
-                IconUtil.icon(ThemeIcon.getInstance().box, Color.Transparent)
-            }
-
-
-            when (isDirectory) {
-                true -> {
-                    IconUtil.icon(ThemeIcon.getInstance().folder)
-                }
-
-                false -> {
-                    IconUtil.icon(ThemeIcon.getInstance().file)
-                }
-            }
-            Spacer(Modifier.width(3.dp))
-            Text(
-                name,
-                color = Theme.getInstance().fontColor,
-            )
         }
 
     }
