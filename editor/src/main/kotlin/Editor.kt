@@ -1,6 +1,7 @@
+import action.*
+import action.sub.OpenFolder
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Switch
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -10,7 +11,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import data.DataManager
 import theme.Theme
-import tool.Tool
 import ui.Ui
 import ui.document.DefaultDocument
 import ui.document.EmptyDocument
@@ -30,18 +30,12 @@ class Editor : Ui {
 
     // left or right width
     private val leftRightWidth = 30.dp
-
-    // left or right color
     private val toolColor = Theme.getInstance().lightGery
-
-    // body color
     private val bodyColor = Theme.getInstance().darkGery
 
 
-    // left action index
-    val leftActionIndex = mutableStateOf(0)
-
     val windowList = mutableStateListOf<DefaultWindow>()
+    val actionList = mutableStateListOf<DefaultAction>()
     private val documentList = mutableStateListOf<DefaultDocument>()
     private val documentId = mutableStateOf("")
 
@@ -54,6 +48,12 @@ class Editor : Ui {
 
 
     init {
+        addAction(FileAction())
+        addAction(EditAction())
+        addAction(CodeAction())
+        addAction(HelpAction())
+        addAction(OpenFolder())
+
         windowList.add(FileWindow())
         windowList.add(MessageWindow())
         windowList.add(RunWindow())
@@ -70,6 +70,25 @@ class Editor : Ui {
             }
         }
     }
+
+    fun addAction(action: DefaultAction) {
+        // check
+        for (act in actionList) {
+            if (act.id() == action.id()) {
+                println("Action id is repeat")
+                return
+            }
+        }
+        // 是否存在在相同的组件
+        for (act in actionList) {
+            if (act.group() == action.group()) {
+                act.actionList().add(action)
+                return
+            }
+        }
+        actionList.add(action)
+    }
+
 
     fun openWindowById(id: String) {
         for (window in windowList) {
@@ -145,6 +164,7 @@ class Editor : Ui {
     }
 
 
+    @OptIn(ExperimentalFoundationApi::class)
     @Composable
     override fun ui() {
         Column(modifier = Modifier.fillMaxSize()) {
@@ -154,16 +174,13 @@ class Editor : Ui {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 localSpacer(leftRightWidth)
-                Tool("File").ui()
-                localSpacer()
-                Tool("Edit").ui()
-                localSpacer()
-                Tool("About").ui()
-                localSpacer()
+                actionList.forEach {
+                    it.ui()
+                    localSpacer()
+                }
             }
 
             horizontalSpacer()
-
 
             // body park
             Row(modifier = Modifier.weight(1f).fillMaxHeight()) {
@@ -199,7 +216,18 @@ class Editor : Ui {
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     repeat(documentList.size) {
-                                        FileBar(documentList[it], documentId).ui()
+                                        TooltipArea({
+                                            Theme.tipPanel {
+                                                Text(
+                                                    documentId.value,
+                                                    color = Theme.getInstance().fontColor,
+                                                    modifier = Modifier.padding(8.dp)
+                                                )
+                                            }
+                                        }
+                                        ){
+                                            FileBar(documentList[it], documentId).ui()
+                                        }
                                     }
                                 }
                                 HorizontalScrollbar(

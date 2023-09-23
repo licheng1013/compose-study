@@ -2,8 +2,11 @@ package window
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import theme.Theme
 import ui.window.DefaultWindow
 import ui.window.WindowPosition
@@ -32,5 +35,9 @@ class ToolWindow : DefaultWindow() {
 
     override fun color(): Color {
         return Color(83, 167, 197)
+    }
+
+    override fun icon(): ImageVector {
+        return Icons.Default.Settings
     }
 }

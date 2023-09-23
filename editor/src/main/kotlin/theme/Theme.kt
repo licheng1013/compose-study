@@ -60,6 +60,17 @@ class Theme {
         fun setInstance(theme: Theme) {
             Theme = theme
         }
+
+        @Composable
+        fun tipPanel(tip:  @Composable () -> Unit) {
+            Column(
+                getInstance().border()
+                    .background(getInstance().lightGery),
+                verticalArrangement = Arrangement.Center,
+            ) {
+                tip()
+            }
+        }
     }
 
 

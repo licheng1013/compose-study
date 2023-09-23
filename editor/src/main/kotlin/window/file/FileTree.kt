@@ -22,6 +22,7 @@ import open.IconUtil
 import theme.Theme
 import theme.ThemeIcon
 import ui.Ui
+import ui.document.FileDocument
 
 
 class FileTree(var file: String) : Ui {
@@ -94,12 +95,8 @@ class FileTree(var file: String) : Ui {
 
         TooltipArea(
             tooltip = {
-                Column(
-                    Theme.getInstance().border().height(30.dp)
-                        .background(Theme.getInstance().lightGery),
-                    verticalArrangement = Arrangement.Center,
-                ) {
-                    Text(path, color = Theme.getInstance().fontColor, modifier = Modifier.padding(horizontal = 6.dp))
+                Theme.tipPanel{
+                    Text(path, color = Theme.getInstance().fontColor, modifier = Modifier.padding(8.dp))
                 }
             },
         ) {
@@ -116,7 +113,7 @@ class FileTree(var file: String) : Ui {
                                     openList.add(index)
                                 }
                             } else {
-                                //Editor.editor.addDocumentWithSelect(FileDocument(path))
+                                Editor.editor.addDocumentWithSelect(FileDocument(path))
                             }
                         }
                     )

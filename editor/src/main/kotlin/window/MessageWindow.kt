@@ -32,7 +32,7 @@ class MessageWindow : DefaultWindow() {
      *  窗口位置
      */
     override fun position(): WindowPosition {
-        return WindowPosition.LEFT_TOP
+        return WindowPosition.RIGHT_TOP
     }
 
     override fun color(): Color {
