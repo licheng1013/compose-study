@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.unit.dp
+import open.PointerUtil
 import theme.Theme
 
 
@@ -96,7 +97,9 @@ abstract class DefaultWindow : Window {
     @Composable
     open fun layout() {
         // 构建一个滚动列表
-        Box(modifier = Modifier.fillMaxSize()) {
+        Box(modifier = PointerUtil.onTap {
+            Editor.editor.closeContextMenu()
+        }.fillMaxSize()) {
             Box(
                 Modifier.verticalScroll(scrollStateY).fillMaxSize()
                     .background(color = Theme.getInstance().lightGery)

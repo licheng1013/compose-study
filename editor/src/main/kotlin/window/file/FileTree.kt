@@ -1,8 +1,10 @@
 package window.file
 
+import Editor
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.TooltipArea
 import androidx.compose.foundation.background
+import androidx.compose.foundation.contextMenuOpenDetector
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
@@ -92,7 +94,6 @@ class FileTree(var file: String) : Ui {
         val select = selected.value == index
         val isDirectory = FileUtil.isDirectory(path)
         var selectedColor = if (select) Theme.getInstance().selectedColor else Theme.getInstance().lightGery
-
         TooltipArea(
             tooltip = {
                 Theme.tipPanel{
@@ -117,6 +118,9 @@ class FileTree(var file: String) : Ui {
                             }
                         }
                     )
+
+                }.contextMenuOpenDetector {
+                    Editor.editor.openContextMenu(it)
                 }
                 .height(26.dp)
                 .background(selectedColor).fillMaxWidth(),

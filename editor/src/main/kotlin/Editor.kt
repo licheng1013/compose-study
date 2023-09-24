@@ -1,15 +1,20 @@
+
 import action.*
 import action.sub.OpenFolder
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import data.DataManager
+import open.PointerUtil
 import theme.Theme
 import ui.Ui
 import ui.document.DefaultDocument
@@ -167,7 +172,11 @@ class Editor : Ui {
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
     override fun ui() {
-        Column(modifier = Modifier.fillMaxSize()) {
+        Column(modifier = PointerUtil.onTap {
+            contextMenu.value = false
+        }
+            .fillMaxSize()
+        ) {
             // header park
             Row(
                 modifier = Modifier.height(headerHeight).fillMaxWidth().background(toolColor),
@@ -225,7 +234,7 @@ class Editor : Ui {
                                                 )
                                             }
                                         }
-                                        ){
+                                        ) {
                                             FileBar(documentList[it], documentId).ui()
                                         }
                                     }
@@ -301,6 +310,32 @@ class Editor : Ui {
                 localSpacer()
             }
         }
+
+
+        if (contextMenu.value) {
+            Box(Modifier.offset(
+                contextMenuOffset.value.x.dp,contextMenuOffset.value.y.dp
+            )){
+                Column(
+                    modifier = Theme.getInstance().border()
+                        .background(Theme.getInstance().lightGery)
+                        .width(200.dp)
+                ) {
+                    Text("Hello", color = Theme.getInstance().fontColor)
+                }
+            }
+
+        }
+
+
+    }
+
+    private var contextMenu = mutableStateOf(false)
+    private var contextMenuOffset = mutableStateOf(Offset.Zero)
+
+    fun openContextMenu(offset: Offset) {
+        //contextMenu.value = true
+        contextMenuOffset.value = offset
     }
 
 
@@ -338,6 +373,10 @@ class Editor : Ui {
             firstDocumentId = documentList.first().id()
         }
         this.documentId.value = firstDocumentId
+    }
+
+    fun closeContextMenu() {
+        contextMenu.value = false
     }
 
     companion object {
