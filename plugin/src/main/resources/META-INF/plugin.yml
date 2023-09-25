@@ -1,0 +1,8 @@
+id: com.demo # 插件id
+name: Demo # 插件名称
+version: 2023.9.1 # 插件版本
+minVersion: 1 # 插件最低支持的版本
+maxVersion: -1 # 插件最高支持的版本 -1 为不限制
+author: demo # 插件作者
+pluginClass: com.aiwan.MyPlugin # 插件主类
+desc: 插件描述 # 插件描述

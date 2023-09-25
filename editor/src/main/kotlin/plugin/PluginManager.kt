@@ -1,6 +1,7 @@
 package plugin
 
 import open.FileUtil
+import open.YamlUtil
 import java.net.URL
 import java.net.URLClassLoader
 
@@ -11,15 +12,28 @@ fun main() {
 
 object PluginManager {
     fun loadPlugin() {
-        val urls = arrayOf(URL("file:D:\\my-study\\compose-study\\editor\\build\\libs\\editor-1.0-SNAPSHOT.jar"))
+        val urls = arrayOf(URL("file:D:\\my-study\\compose-study\\plugin\\build\\libs\\plugin-1.0-SNAPSHOT.jar"))
         val classLoader = URLClassLoader(urls, PluginManager::class.java.getClassLoader())
         val inputStream = classLoader.getResourceAsStream("META-INF/plugin.yml")
         val file = FileUtil.loadFile(inputStream)
-        println("file:${file}")
+        val pluginConfig = YamlUtil.load(file, PluginConfig::class.java)
+        checkConfig(pluginConfig)
+        println(pluginConfig)
+        tryLoadPlugin(pluginConfig.pluginClass!!,classLoader)
+    }
+
+    private fun tryLoadPlugin(classPath: String, classLoader: URLClassLoader) {
+        try {
+            val cls = classLoader.loadClass(classPath)
+            val pluginInstance = cls.getDeclaredConstructor().newInstance()
+            println("pluginInstance:${pluginInstance}")
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
 
-    fun checkConfig(config: PluginConfig){
+    private fun checkConfig(config: PluginConfig) {
         if (config.id.isNullOrBlank()) {
             throw Exception("id is null")
         }
