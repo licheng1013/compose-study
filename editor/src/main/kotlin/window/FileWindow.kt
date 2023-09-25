@@ -7,7 +7,7 @@ import ui.window.DefaultWindow
 import ui.window.WindowPosition
 import window.file.FileTree
 
-class FileWindow : DefaultWindow() {
+object FileWindow : DefaultWindow() {
     override fun id(): String {
         return "FILE"
     }
@@ -36,7 +36,8 @@ class FileWindow : DefaultWindow() {
         return WindowPosition.LEFT_TOP
     }
 
-    override fun color(): Color {
+    override fun iconColor(): Color {
         return Color(83, 167, 197)
     }
+
 }

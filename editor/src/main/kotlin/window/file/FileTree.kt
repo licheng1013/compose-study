@@ -96,8 +96,8 @@ class FileTree(var file: String) : Ui {
         var selectedColor = if (select) Theme.getInstance().selectedColor else Theme.getInstance().lightGery
         TooltipArea(
             tooltip = {
-                Theme.tipPanel{
-                    Text(path, color = Theme.getInstance().fontColor, modifier = Modifier.padding(8.dp))
+                Theme.getInstance().tipPanel{
+                    Text(path, color = Theme.getInstance().fontColor, modifier = Modifier.padding(6.dp))
                 }
             },
         ) {
@@ -134,22 +134,21 @@ class FileTree(var file: String) : Ui {
 
                 if (isDirectory) {
                     if (isOpen) {
-                        IconUtil.icon(ThemeIcon.getInstance().arrowDown)
+                        IconUtil.defaultIcon(ThemeIcon.getInstance().arrowDown)
                     } else {
-                        IconUtil.icon(ThemeIcon.getInstance().arrowRight)
+                        IconUtil.defaultIcon(ThemeIcon.getInstance().arrowRight)
                     }
                 } else {
-                    IconUtil.icon(ThemeIcon.getInstance().box, Color.Transparent)
+                    IconUtil.defaultIcon(ThemeIcon.getInstance().box, Color.Transparent)
                 }
-
 
                 when (isDirectory) {
                     true -> {
-                        IconUtil.icon(ThemeIcon.getInstance().folder)
+                        IconUtil.defaultIcon(ThemeIcon.getInstance().folder)
                     }
 
                     false -> {
-                        IconUtil.icon(ThemeIcon.getInstance().file)
+                        IconUtil.defaultIcon(ThemeIcon.getInstance().file)
                     }
                 }
                 Spacer(Modifier.width(3.dp))

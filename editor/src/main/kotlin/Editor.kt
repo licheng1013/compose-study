@@ -1,4 +1,3 @@
-
 import action.*
 import action.sub.OpenFolder
 import androidx.compose.foundation.*
@@ -15,17 +14,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import data.DataManager
 import open.PointerUtil
-import plugin.PluginManager
 import theme.Theme
 import ui.Ui
 import ui.document.DefaultDocument
 import ui.document.EmptyDocument
 import ui.window.DefaultWindow
 import ui.window.WindowPosition
-import window.FileWindow
-import window.MessageWindow
-import window.RunWindow
-import window.ToolWindow
+import window.*
 
 class Editor : Ui {
     // header height
@@ -54,31 +49,29 @@ class Editor : Ui {
 
 
     init {
+        // 默认动作
         addAction(FileAction())
         addAction(EditAction())
         addAction(CodeAction())
         addAction(HelpAction())
         addAction(OpenFolder())
 
-        windowList.add(FileWindow())
-        windowList.add(MessageWindow())
-        windowList.add(RunWindow())
-        windowList.add(ToolWindow())
-        checkWindowId()
+        // 默认窗口
+        addWindow(FileWindow)
+        addWindow(MessageWindow)
+        addWindow(RunWindow())
+        addWindow(ToolWindow())
+        addWindow(PluginWindow())
 
         val manager = DataManager.getInstance()
         if (manager.openPath.isNotEmpty()) {
-            windowList.forEach {
-                if (it is FileWindow) {
-                    it.selectPath(manager.openPath)
-                    openWindowById(it.id())
-                }
-            }
+            FileWindow.selectPath(manager.openPath)
+            openWindowById(FileWindow.id())
         }
 
     }
 
-    fun addAction(action: DefaultAction) {
+    private fun addAction(action: DefaultAction) {
         // check
         for (act in actionList) {
             if (act.id() == action.id()) {
@@ -129,15 +122,13 @@ class Editor : Ui {
     }
 
 
-    private fun checkWindowId() {
-        // 检查窗口id是否重复
-        val idList = mutableListOf<String>()
-        for (window in windowList) {
-            if (idList.contains(window.id())) {
-                throw RuntimeException("Window id is repeat")
+    private fun addWindow(window: DefaultWindow) {
+        windowList.forEach {
+            if (it.id().contains(window.id())) {
+                throw RuntimeException("窗口插件id重复")
             }
-            idList.add(window.id())
         }
+        windowList.add(window)
     }
 
     private fun getDocumentById(id: String): DefaultDocument {
@@ -228,7 +219,7 @@ class Editor : Ui {
                                 ) {
                                     repeat(documentList.size) {
                                         TooltipArea({
-                                            Theme.tipPanel {
+                                            Theme.getInstance().tipPanel {
                                                 Text(
                                                     documentId.value,
                                                     color = Theme.getInstance().fontColor,
@@ -315,9 +306,11 @@ class Editor : Ui {
 
 
         if (contextMenu.value) {
-            Box(Modifier.offset(
-                contextMenuOffset.value.x.dp,contextMenuOffset.value.y.dp
-            )){
+            Box(
+                Modifier.offset(
+                    contextMenuOffset.value.x.dp, contextMenuOffset.value.y.dp
+                )
+            ) {
                 Column(
                     modifier = Theme.getInstance().border()
                         .background(Theme.getInstance().lightGery)

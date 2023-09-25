@@ -73,7 +73,7 @@ class FileBar(
                             if (isHovered) Theme.getInstance().selectedColor else Color.Transparent
                         )
                     ) {
-                        IconUtil.icon(
+                        IconUtil.defaultIcon(
                             ThemeIcon.getInstance().close, size = 10,
                         )
                     }

@@ -50,6 +50,16 @@ class Theme {
         )
     }
 
+    @Composable
+    fun tipPanel(tip: @Composable () -> Unit) {
+        Column(
+            getInstance().border()
+                .background(getInstance().lightGery),
+            verticalArrangement = Arrangement.Center,
+        ) {
+            tip()
+        }
+    }
 
     companion object {
         private var Theme = Theme()
@@ -61,16 +71,7 @@ class Theme {
             Theme = theme
         }
 
-        @Composable
-        fun tipPanel(tip:  @Composable () -> Unit) {
-            Column(
-                getInstance().border()
-                    .background(getInstance().lightGery),
-                verticalArrangement = Arrangement.Center,
-            ) {
-                tip()
-            }
-        }
+
     }
 
 

@@ -23,16 +23,13 @@ class OpenFolder : DefaultAction() {
     override fun action() {
         //调用文件窗口
         val singleDir = FileUtil.openSingleDir()
+        println("openPath:${singleDir},${singleDir.isNotEmpty()}")
         if (singleDir.isNotEmpty()) {
             val dataManager = DataManager.getInstance()
             dataManager.openPath = singleDir
             dataManager.save()
-            Editor.editor.windowList.forEach {
-                if (it is FileWindow) {
-                    it.selectPath(singleDir)
-                    Editor.editor.openWindowById(it.id())
-                }
-            }
+            FileWindow.selectPath(singleDir)
+            Editor.editor.openWindowById(FileWindow.id())
         }
     }
 }

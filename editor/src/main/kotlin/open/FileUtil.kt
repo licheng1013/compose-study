@@ -100,4 +100,8 @@ object FileUtil {
         return text
     }
 
+    fun createDir(path: String) {
+        File(path).mkdirs()
+    }
+
 }

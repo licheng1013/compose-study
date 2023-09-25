@@ -11,13 +11,11 @@ import theme.Theme
 import ui.window.DefaultWindow
 import ui.window.WindowPosition
 
-class MessageWindow : DefaultWindow() {
+object MessageWindow : DefaultWindow() {
 
     @Composable
     override fun windowUi() {
-        Column(
-
-        ) {
+        Column {
             repeat(10) {
                 Text("Message #$it", color = Theme.getInstance().fontColor)
             }
@@ -35,11 +33,9 @@ class MessageWindow : DefaultWindow() {
         return WindowPosition.RIGHT_TOP
     }
 
-    override fun color(): Color {
+    override fun iconColor(): Color {
         return Color(109, 213, 128)
     }
 
-    override fun icon(): ImageVector {
-        return Icons.Default.Notifications
-    }
+
 }

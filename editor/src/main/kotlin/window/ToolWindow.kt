@@ -33,11 +33,9 @@ class ToolWindow : DefaultWindow() {
         return WindowPosition.RIGHT_TOP
     }
 
-    override fun color(): Color {
+    override fun iconColor(): Color {
         return Color(83, 167, 197)
     }
 
-    override fun icon(): ImageVector {
-        return Icons.Default.Settings
-    }
+
 }

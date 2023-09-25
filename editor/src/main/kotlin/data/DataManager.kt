@@ -7,7 +7,15 @@ class DataManager {
     var openPath = ""
 
     companion object {
-        private var savePath = FileUtil.home + "/.my_compose.json";
+
+        private var basePath = "/.my_compose"
+        private var savePath = FileUtil.home + "$basePath/.my_compose.json";
+
+        init {
+            // 创建目录
+            FileUtil.createDir(FileUtil.home + basePath)
+        }
+
         fun getInstance(): DataManager {
             if (FileUtil.isExist(savePath)) {
                 val json = FileUtil.loadFile(savePath)

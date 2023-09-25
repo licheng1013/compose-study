@@ -36,11 +36,9 @@ class RunWindow : DefaultWindow() {
         return WindowPosition.LEFT_BOTTOM
     }
 
-    override fun color(): Color {
+    override fun iconColor(): Color {
         return Color(190, 147, 255)
     }
 
-    override fun icon(): ImageVector {
-        return Icons.Default.Build
-    }
+
 }

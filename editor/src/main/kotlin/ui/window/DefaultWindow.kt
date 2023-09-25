@@ -7,10 +7,9 @@ import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.material.Icon
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.IconButton
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -18,12 +17,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.unit.dp
+import open.IconUtil
 import open.PointerUtil
 import theme.Theme
+import theme.ThemeIcon
 
 
 /**
@@ -33,55 +33,68 @@ abstract class DefaultWindow : Window {
 
     var selected = mutableStateOf(false)
 
+    @OptIn(ExperimentalFoundationApi::class)
     @Composable
     override fun ui() {
 
         val interactionSource = remember { MutableInteractionSource() }
         val isHovered by interactionSource.collectIsHoveredAsState()
-        IconButton(
-            modifier = Modifier.background(
-                color = if (selected.value || isHovered) Theme.getInstance().selectedColor else Theme.getInstance().unselectedColor
-            )
-                .pointerHoverIcon(icon = PointerIcon.Hand).hoverable(interactionSource)
-                .height(30.dp),
-            onClick = {
-                Editor.editor.offAll(position(), id())
-                selected.value = !selected.value
-                val id = if (selected.value) id() else ""
+        TooltipArea({
+            Theme.getInstance().tipPanel {
+                Text(desc(), color = Theme.getInstance().fontColor, modifier = Modifier.padding(6.dp))
+            }
+        }) {
+            IconButton(
+                modifier = Modifier.background(
+                    color = if (selected.value || isHovered) Theme.getInstance().selectedColor else Theme.getInstance().unselectedColor
+                )
+                    .pointerHoverIcon(icon = PointerIcon.Hand).hoverable(interactionSource)
+                    .height(30.dp),
+                onClick = {
+                    Editor.editor.offAll(position(), id())
+                    selected.value = !selected.value
+                    val id = if (selected.value) id() else ""
 
-                when (position()) {
-                    WindowPosition.RIGHT_TOP -> {
-                        Editor.editor.rightTopWindowId.value = id
+                    when (position()) {
+                        WindowPosition.RIGHT_TOP -> {
+                            Editor.editor.rightTopWindowId.value = id
+                        }
+
+                        WindowPosition.LEFT_TOP -> {
+                            Editor.editor.leftTopWindowId.value = id
+                        }
+
+                        WindowPosition.LEFT_BOTTOM -> {
+                            Editor.editor.leftBottomWindowId.value = id
+                        }
+
+                        WindowPosition.RIGHT_BOTTOM -> {
+
+                        }
                     }
 
-                    WindowPosition.LEFT_TOP -> {
-                        Editor.editor.leftTopWindowId.value = id
-                    }
-
-                    WindowPosition.LEFT_BOTTOM -> {
-                        Editor.editor.leftBottomWindowId.value = id
-                    }
-
-                    WindowPosition.RIGHT_BOTTOM -> {
-
-                    }
-                }
-
-            }) {
-            Icon(icon(), contentDescription = desc(), tint = color())
+                }) {
+                icon()
+            }
         }
+
     }
 
-    open fun color(): Color {
+    open fun iconColor(): Color {
         return Color.White
     }
 
-    open fun icon(): ImageVector {
-        return Icons.Default.Home
+    @Composable
+    private fun icon() {
+        IconUtil.icon(iconPath(), size = 16, color = iconColor())
+    }
+
+    open fun iconPath(): String {
+        return ThemeIcon.getInstance().plugin
     }
 
     open fun desc(): String {
-        return ""
+        return "Not Desc"
     }
 
     abstract fun id(): String
@@ -92,7 +105,7 @@ abstract class DefaultWindow : Window {
     @Composable
     abstract fun windowUi()
 
-    val scrollStateY = ScrollState(0)
+    private val scrollStateY = ScrollState(0)
 
     @Composable
     open fun layout() {
