@@ -12,3 +12,7 @@ pluginManagement {
 
 
 rootProject.name = "compose-study"
+include("plugin")
+include("study")
+include("editor")
+

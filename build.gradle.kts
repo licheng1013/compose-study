@@ -20,21 +20,16 @@ dependencies {
     // (in a separate module for demo project and in testMain).
     // With compose.desktop.common you will also lose @Preview functionality
     implementation(compose.desktop.currentOs)
-    // 依赖库
-    implementation("com.alibaba:fastjson:2.0.32")
-    implementation("org.antlr:antlr4:4.13.1")
-    implementation("org.yaml:snakeyaml:2.2")
 
 }
 
-//compose.desktop {
-//    application {
-//        mainClass = "MainKt"
-//
-//        nativeDistributions {
-//            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-//            packageName = "editor"
-//            packageVersion = "1.0.0"
-//        }
-//    }
-//}
+compose.desktop {
+    application {
+        mainClass = "MainKt"
+        nativeDistributions {
+            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            packageName = "compose-study"
+            packageVersion = "1.0.0"
+        }
+    }
+}
