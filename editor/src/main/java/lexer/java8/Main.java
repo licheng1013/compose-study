@@ -10,7 +10,7 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Hello World");
         // 读取文件
-        String file = FileUtil.Companion.loadFile("editor/src/main/java/lexer/java8/Main.java");
+        String file = FileUtil.INSTANCE.loadFile("editor/src/main/java/lexer/java8/Main.java");
         CharStream input = CharStreams.fromString(file);
         Java8Lexer lexer = new Java8Lexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);

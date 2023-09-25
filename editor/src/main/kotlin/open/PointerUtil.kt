@@ -6,19 +6,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.pointerInput
 
-class PointerUtil {
-    companion object {
-        fun onTap(onTap: (Offset) -> Unit = {}): Modifier {
-            return Modifier.pointerInput(Unit) {
-                detectTapGestures(onTap = onTap)
-            }
+object PointerUtil {
+    fun onTap(onTap: (Offset) -> Unit = {}): Modifier {
+        return Modifier.pointerInput(Unit) {
+            detectTapGestures(onTap = onTap)
         }
+    }
 
-        /**
-         * 带提示的按下
-         */
-        fun onTapWithTip(onTap: () -> Unit = {}): Modifier {
-            return Modifier.clickable(onClick = onTap)
-        }
+    /**
+     * 带提示的按下
+     */
+    fun onTapWithTip(onTap: () -> Unit = {}): Modifier {
+        return Modifier.clickable(onClick = onTap)
     }
 }

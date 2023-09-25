@@ -12,8 +12,7 @@ import androidx.compose.ui.unit.dp
 import theme.Theme
 import theme.ThemeIcon
 
-class IconUtil {
-    companion object {
+object IconUtil {
         @Composable
         fun icon(path: String = ThemeIcon.getInstance().box, color: Color = Color.White, size: Int = 16) {
             Image(
@@ -24,5 +23,4 @@ class IconUtil {
                 colorFilter = ColorFilter.tint(color)
             )
         }
-    }
 }
