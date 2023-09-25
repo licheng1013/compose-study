@@ -10,6 +10,6 @@ fun main() = application {
         onCloseRequest = ::exitApplication,
         icon = painterResource(ThemeIcon.getInstance().settings)
     ) {
-        Editor.editor.ui()
+        Editor.ui()
     }
 }

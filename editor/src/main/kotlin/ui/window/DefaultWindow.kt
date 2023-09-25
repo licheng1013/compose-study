@@ -45,40 +45,45 @@ abstract class DefaultWindow : Window {
             }
         }) {
             IconButton(
-                modifier = Modifier.background(
+                modifier = PointerUtil.onTap{
+                    click()
+                }.background(
                     color = if (selected.value || isHovered) Theme.getInstance().selectedColor else Theme.getInstance().unselectedColor
                 )
                     .pointerHoverIcon(icon = PointerIcon.Hand).hoverable(interactionSource)
                     .height(30.dp),
                 onClick = {
-                    Editor.editor.offAll(position(), id())
-                    selected.value = !selected.value
-                    val id = if (selected.value) id() else ""
-
-                    when (position()) {
-                        WindowPosition.RIGHT_TOP -> {
-                            Editor.editor.rightTopWindowId.value = id
-                        }
-
-                        WindowPosition.LEFT_TOP -> {
-                            Editor.editor.leftTopWindowId.value = id
-                        }
-
-                        WindowPosition.LEFT_BOTTOM -> {
-                            Editor.editor.leftBottomWindowId.value = id
-                        }
-
-                        WindowPosition.RIGHT_BOTTOM -> {
-
-                        }
-                    }
-
+                    click()
                 }) {
                 icon()
             }
         }
-
     }
+
+    private fun click() {
+        Editor.offAll(position(), id())
+        selected.value = !selected.value
+        val id = if (selected.value) id() else ""
+
+        when (position()) {
+            WindowPosition.RIGHT_TOP -> {
+                Editor.rightTopWindowId.value = id
+            }
+
+            WindowPosition.LEFT_TOP -> {
+                Editor.leftTopWindowId.value = id
+            }
+
+            WindowPosition.LEFT_BOTTOM -> {
+                Editor.leftBottomWindowId.value = id
+            }
+
+            WindowPosition.RIGHT_BOTTOM -> {
+
+            }
+        }
+    }
+
 
     open fun iconColor(): Color {
         return Color.White
@@ -111,7 +116,7 @@ abstract class DefaultWindow : Window {
     open fun layout() {
         // 构建一个滚动列表
         Box(modifier = PointerUtil.onTap {
-            Editor.editor.closeContextMenu()
+            Editor.closeContextMenu()
         }.fillMaxSize()) {
             Box(
                 Modifier.verticalScroll(scrollStateY).fillMaxSize()

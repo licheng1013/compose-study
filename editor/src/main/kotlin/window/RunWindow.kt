@@ -11,7 +11,7 @@ import theme.Theme
 import ui.window.DefaultWindow
 import ui.window.WindowPosition
 
-class RunWindow : DefaultWindow() {
+object RunWindow : DefaultWindow() {
 
     @Composable
     override fun windowUi() {

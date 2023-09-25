@@ -114,13 +114,13 @@ class FileTree(var file: String) : Ui {
                                     openList.add(index)
                                 }
                             } else {
-                                Editor.editor.addDocumentWithSelect(FileDocument(path))
+                                Editor.addDocumentWithSelect(FileDocument(path))
                             }
                         }
                     )
 
                 }.contextMenuOpenDetector {
-                    Editor.editor.openContextMenu(it)
+                    Editor.openContextMenu(it)
                 }
                 .height(26.dp)
                 .background(selectedColor).fillMaxWidth(),

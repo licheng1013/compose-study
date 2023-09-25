@@ -22,7 +22,7 @@ import ui.window.DefaultWindow
 import ui.window.WindowPosition
 import window.*
 
-class Editor : Ui {
+object Editor : Ui {
     // header height
     private val headerHeight = 35.dp
 
@@ -35,8 +35,8 @@ class Editor : Ui {
     private val bodyColor = Theme.getInstance().darkGery
 
 
-    val windowList = mutableStateListOf<DefaultWindow>()
-    val actionList = mutableStateListOf<DefaultAction>()
+    private val windowList = mutableStateListOf<DefaultWindow>()
+    private val actionList = mutableStateListOf<DefaultAction>()
     private val documentList = mutableStateListOf<DefaultDocument>()
     private val documentId = mutableStateOf("")
 
@@ -59,9 +59,9 @@ class Editor : Ui {
         // 默认窗口
         addWindow(FileWindow)
         addWindow(MessageWindow)
-        addWindow(RunWindow())
-        addWindow(ToolWindow())
-        addWindow(PluginWindow())
+        addWindow(RunWindow)
+        addWindow(ToolWindow)
+        addWindow(PluginWindow)
 
         val manager = DataManager.getInstance()
         if (manager.openPath.isNotEmpty()) {
@@ -374,7 +374,5 @@ class Editor : Ui {
         contextMenu.value = false
     }
 
-    companion object {
-        var editor = Editor()
-    }
+
 }

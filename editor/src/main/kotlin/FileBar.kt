@@ -68,7 +68,7 @@ class FileBar(
                     val isHovered by interactionSource.collectIsHoveredAsState()
                     Box(
                         PointerUtil.onTap {
-                            Editor.editor.removeDocument(documentId.value)
+                            Editor.removeDocument(documentId.value)
                         }.hoverable(interactionSource).background(
                             if (isHovered) Theme.getInstance().selectedColor else Color.Transparent
                         )

@@ -76,16 +76,7 @@ class FileDocument(val id: String) : DefaultDocument() {
 
     companion object {
 
-        @Composable
-        fun colors(): TextFieldColors {
-            return TextFieldDefaults.textFieldColors(
-                backgroundColor = Color.Transparent,
-                cursorColor = Color.White,
-                textColor = Color.White,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent
-            )
-        }
+
 
 
     }

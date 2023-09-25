@@ -11,7 +11,7 @@ import theme.Theme
 import ui.window.DefaultWindow
 import ui.window.WindowPosition
 
-class ToolWindow : DefaultWindow() {
+object ToolWindow : DefaultWindow() {
     override fun id(): String {
         return "TOOL"
     }
