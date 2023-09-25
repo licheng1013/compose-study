@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import data.DataManager
 import open.PointerUtil
+import plugin.PluginManager
 import theme.Theme
 import ui.Ui
 import ui.document.DefaultDocument
@@ -74,6 +75,7 @@ class Editor : Ui {
                 }
             }
         }
+
     }
 
     fun addAction(action: DefaultAction) {
