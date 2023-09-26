@@ -28,5 +28,7 @@ dependencies {
     implementation("io.ktor:ktor-server-default-headers-jvm:2.3.4")
     implementation("io.ktor:ktor-server-content-negotiation:2.3.4")
     implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.4")
+    // websocket
+    implementation("org.java-websocket:Java-WebSocket:1.5.4")
 }
 
