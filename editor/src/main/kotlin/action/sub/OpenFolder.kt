@@ -29,7 +29,7 @@ class OpenFolder : DefaultAction() {
             dataManager.openPath = singleDir
             dataManager.save()
             FileWindow.selectPath(singleDir)
-            Editor.openWindowById(FileWindow.id())
+            FileWindow.click(force = true)
         }
     }
 }

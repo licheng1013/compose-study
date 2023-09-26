@@ -7,12 +7,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.TextFieldColors
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
+import open.PointerUtil
 import java.awt.Cursor
 
 class Theme {
@@ -23,6 +25,9 @@ class Theme {
 
     // 用于非主要区域 - 浅灰色
     val lightGery = Color(43, 45, 48)
+
+    // 提示颜色
+    val tipColor = Color(57, 59, 64)
 
     // 用于主要区域 - 深灰色
     val darkGery = Color(30, 31, 34)
@@ -41,10 +46,10 @@ class Theme {
 
 
     // 设置圆角
-    fun border(): Modifier {
+    fun border(shape: Int = 6): Modifier {
         return Modifier.border(
             1.dp, color = hoverColor,
-            shape = RoundedCornerShape(6.dp)
+            shape = RoundedCornerShape(shape.dp)
         )
     }
 
@@ -52,7 +57,7 @@ class Theme {
     fun tipPanel(tip: @Composable () -> Unit) {
         Column(
             getInstance().border()
-                .background(getInstance().lightGery),
+                .background(getInstance().tipColor),
             verticalArrangement = Arrangement.Center,
         ) {
             tip()
@@ -136,10 +141,33 @@ class Theme {
                 })
     }
 
+    @Composable
+    inline fun scrollBar(compose: @Composable () -> Unit) {
+        // 滚动条
+        val scrollStateY = rememberScrollState()
+
+        // 构建一个滚动列表
+        Box(modifier = PointerUtil.onTap {
+            Editor.closeContextMenu()
+        }.fillMaxSize()) {
+            Box(
+                Modifier.verticalScroll(scrollStateY).fillMaxSize()
+                    .background(color = getInstance().lightGery)
+            ) {
+                compose()
+            }
+            VerticalScrollbar(
+                adapter = rememberScrollbarAdapter(scrollStateY),
+                Modifier.align(Alignment.CenterEnd),
+                style = getInstance().scrollbarStyle()
+            )
+        }
+    }
+
     // 上下光标
-    var nIcon: PointerIcon = PointerIcon(Cursor(Cursor.N_RESIZE_CURSOR))
+    private var nIcon: PointerIcon = PointerIcon(Cursor(Cursor.N_RESIZE_CURSOR))
 
     // 左右光标
-    var wIcon: PointerIcon = PointerIcon(Cursor(Cursor.W_RESIZE_CURSOR))
+    private var wIcon: PointerIcon = PointerIcon(Cursor(Cursor.W_RESIZE_CURSOR))
 }
 

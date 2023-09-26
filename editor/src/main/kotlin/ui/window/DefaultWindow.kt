@@ -45,7 +45,7 @@ abstract class DefaultWindow : Window {
             }
         }) {
             IconButton(
-                modifier = PointerUtil.onTap{
+                modifier = PointerUtil.onTap {
                     click()
                 }.background(
                     color = if (selected.value || isHovered) Theme.getInstance().selectedColor else Theme.getInstance().unselectedColor
@@ -60,10 +60,16 @@ abstract class DefaultWindow : Window {
         }
     }
 
-    private fun click() {
+    // 强力打开，不管是否选中，都打开
+    open fun click(force: Boolean = false) {
         Editor.offAll(position(), id())
+
         selected.value = !selected.value
-        val id = if (selected.value) id() else ""
+        var id = if (selected.value) id() else ""
+
+        if (force) {
+            id = id()
+        }
 
         when (position()) {
             WindowPosition.RIGHT_TOP -> {

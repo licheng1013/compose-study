@@ -60,21 +60,32 @@ object PluginWindow : DefaultWindow() {
                     )
                 }
             )
-
-            repeat(pluginList.size) { index ->
-                Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                    Spacer(Modifier.weight(1f))
-                    Column(modifier = Modifier.width(100.dp)) {
-                        Text("Plugin #$index", color = Theme.getInstance().fontColor, fontSize = 16.sp)
-                        Text("Desc Info ....", color = Theme.getInstance().fontColor, fontSize = 14.sp)
+            Theme.getInstance().scrollBar{
+                Column {
+                    repeat(pluginList.size) { index ->
+                        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                            Spacer(Modifier.weight(1f))
+                            Column(modifier = Modifier.width(100.dp)) {
+                                Text("Plugin #$index", color = Theme.getInstance().fontColor, fontSize = 16.sp)
+                                Text("Desc Info ....", color = Theme.getInstance().fontColor, fontSize = 14.sp)
+                            }
+                            Switch(checked = pluginList[index], onCheckedChange = {
+                                pluginList[index] = it
+                            })
+                            Spacer(Modifier.weight(1f))
+                        }
                     }
-                    Switch(checked = pluginList[index], onCheckedChange = {
-                        pluginList[index] = it
-                    })
-                    Spacer(Modifier.weight(1f))
                 }
             }
+
+
         }
+    }
+
+
+    @Composable
+    override fun layout() {
+        windowUi()
     }
 
     /**

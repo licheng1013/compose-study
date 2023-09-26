@@ -1,6 +1,7 @@
 package theme
 
 class ThemeIcon {
+    val message = "/icon/message.png"
     val close = "/icon/close.png"
     var folder = "/icon/folder.png"
     var file = "/icon/file.png"

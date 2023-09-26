@@ -4,6 +4,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.input.pointer.PointerIcon
+import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.input.pointer.pointerInput
 
 object PointerUtil {
@@ -12,6 +14,13 @@ object PointerUtil {
             detectTapGestures(onTap = onTap)
         }
     }
+
+    fun onTapWithHand(onTap: (Offset) -> Unit = {}): Modifier {
+        return Modifier.pointerHoverIcon(icon= PointerIcon.Hand).pointerInput(Unit) {
+            detectTapGestures(onTap = onTap)
+        }
+    }
+
 
     /**
      * 带提示的按下
