@@ -9,7 +9,8 @@ interface Highlight {
     fun suffix(): String
 
     companion object {
-        val highlightList = mutableListOf(XmlHighlight(), JavaHighlight())
+        private val highlightList = mutableListOf(XmlHighlight, JavaHighlight)
+
         fun highlight(code: String, fileType: String): AnnotatedString {
             for (highlight in highlightList) {
                 if (fileType.endsWith(highlight.suffix())) {

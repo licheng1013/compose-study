@@ -5,7 +5,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 
-class JavaHighlight : Highlight {
+object JavaHighlight : Highlight {
 
     override fun highlight(code: String): AnnotatedString {
         val whiteStyle = SpanStyle(color = Color.White)
