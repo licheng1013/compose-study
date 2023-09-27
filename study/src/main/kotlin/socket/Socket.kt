@@ -3,6 +3,8 @@ package socket
 import org.java_websocket.WebSocket
 import org.java_websocket.handshake.ClientHandshake
 import org.java_websocket.server.WebSocketServer
+import java.io.File
+import java.io.FileReader
 import java.net.InetSocketAddress
 import java.net.UnknownHostException
 import java.util.concurrent.Executors
@@ -24,7 +26,10 @@ class MyWebSocketServer(port: Int) : WebSocketServer(InetSocketAddress(port)) {
     private val executorService: ScheduledExecutorService = Executors.newSingleThreadScheduledExecutor()
     override fun onOpen(conn: WebSocket, handshake: ClientHandshake?) {
         println("New connection from " + conn.remoteSocketAddress.address.hostAddress)
-        conn.send("Welcome to the server!")
+        conn.send("欢迎连接到Websocket!")
+        val file = File("README.md")
+        val text = FileReader(file).readText()
+        conn.send(text)
     }
 
     override fun onClose(conn: WebSocket, code: Int, reason: String?, remote: Boolean) {
@@ -42,6 +47,6 @@ class MyWebSocketServer(port: Int) : WebSocketServer(InetSocketAddress(port)) {
 
     override fun onStart() {
         println("Server started on port $port")
-        executorService.scheduleAtFixedRate({ broadcast("Server is still running...") }, 0, 10, TimeUnit.SECONDS)
+        //executorService.scheduleAtFixedRate({ broadcast("定时消息...") }, 0, 10, TimeUnit.SECONDS)
     }
 }
