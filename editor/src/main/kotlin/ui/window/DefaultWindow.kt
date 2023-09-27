@@ -120,21 +120,11 @@ abstract class DefaultWindow : Window {
 
     @Composable
     open fun layout() {
-        // 构建一个滚动列表
-        Box(modifier = PointerUtil.onTap {
-            Editor.closeContextMenu()
-        }.fillMaxSize()) {
-            Box(
-                Modifier.verticalScroll(scrollStateY).fillMaxSize()
-                    .background(color = Theme.getInstance().lightGery)
-            ) {
-                windowUi()
-            }
-            VerticalScrollbar(
-                adapter = rememberScrollbarAdapter(scrollStateY),
-                Modifier.align(Alignment.CenterEnd),
-                style = Theme.getInstance().scrollbarStyle()
-            )
+        Theme.getInstance().scrollBarXY {
+            windowUi()
         }
     }
+
+
+
 }

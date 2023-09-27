@@ -33,9 +33,10 @@ class FileTree(var file: String) : Ui {
         private const val OFFSET_X = 8
     }
 
-    val selected = mutableStateOf("")
-    val openList = mutableStateListOf<String>()
-    val defaultOpen = "0${file}"
+    private val selected = mutableStateOf("")
+    private val openList = mutableStateListOf<String>()
+    private val defaultOpen = "0${file}"
+    private val width = mutableStateOf(defaultOpen.length* 8)
 
     init {
         selected.value = defaultOpen
@@ -54,14 +55,12 @@ class FileTree(var file: String) : Ui {
         if (!FileUtil.isDirectory(file)) {
             throw RuntimeException("file is not directory")
         }
-        Column {
-
+        Column(modifier = Modifier.width(width.value.dp)) {
             if (offsetX == 0) {
                 Row {
                     text(file, selected, offsetX)
                 }
             }
-
             if (openList.contains(defaultOpen)) {
                 Row(Modifier.fillMaxHeight()) {
                     Column(modifier = Modifier.weight(1f)) {

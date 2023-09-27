@@ -10,8 +10,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import open.IconUtil
 import theme.Theme
 import theme.ThemeIcon
 import ui.window.DefaultWindow
@@ -39,7 +41,6 @@ object PluginWindow : DefaultWindow() {
     @Composable
     override fun windowUi() {
         // 构建一个滚动列表
-
         Column {
             // 搜索插件
             OutlinedTextField(
@@ -60,20 +61,33 @@ object PluginWindow : DefaultWindow() {
                     )
                 }
             )
-            Theme.getInstance().scrollBar{
+            Theme.getInstance().scrollBarXY {
                 Column {
                     repeat(pluginList.size) { index ->
-                        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                            Spacer(Modifier.weight(1f))
-                            Column(modifier = Modifier.width(100.dp)) {
-                                Text("Plugin #$index", color = Theme.getInstance().fontColor, fontSize = 16.sp)
-                                Text("Desc Info ....", color = Theme.getInstance().fontColor, fontSize = 14.sp)
+                        Box(Modifier.width(250.dp)){
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Spacer(Modifier.width(10.dp))
+                                IconUtil.icon(ThemeIcon.getInstance().plugin, color = Color.Gray, size = 32)
+                                Spacer(Modifier.width(10.dp))
+                                Column {
+                                    Text("HttpUtil", color = Theme.getInstance().fontColor, fontSize = 16.sp)
+                                    Text(
+                                        "一个简单的Http插件",
+                                         overflow = TextOverflow.Ellipsis,
+                                        color = Theme.getInstance().fontColor,
+                                        fontSize = 14.sp
+                                    )
+                                }
                             }
-                            Switch(checked = pluginList[index], onCheckedChange = {
-                                pluginList[index] = it
-                            })
-                            Spacer(Modifier.weight(1f))
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Spacer(Modifier.weight(1f))
+                                Checkbox(checked = pluginList[index], onCheckedChange = {
+                                    pluginList[index] = it
+                                })
+                                Spacer(Modifier.width(10.dp))
+                            }
                         }
+
                     }
                 }
             }

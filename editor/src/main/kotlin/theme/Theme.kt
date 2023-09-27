@@ -169,5 +169,42 @@ class Theme {
 
     // 左右光标
     private var wIcon: PointerIcon = PointerIcon(Cursor(Cursor.W_RESIZE_CURSOR))
+
+
+    /**
+     * 构建一个上下左右滚动列表，需要注意的是，宽度必须设置否则无法出现水平滚动条
+     */
+    @Composable
+    fun scrollBarXY(compose: @Composable () -> Unit) {
+        Box(
+            modifier = Modifier.fillMaxSize()
+                .background(color = getInstance().lightGery)
+        ) {
+            val stateVertical = rememberScrollState(0)
+            val stateHorizontal = rememberScrollState(0)
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(stateVertical)
+                    .horizontalScroll(stateHorizontal)
+            ) {
+                compose()
+            }
+            VerticalScrollbar(
+                style = getInstance().scrollbarStyle(),
+                modifier = Modifier.align(Alignment.CenterEnd)
+                    .fillMaxHeight(),
+                adapter = rememberScrollbarAdapter(stateVertical)
+            )
+            HorizontalScrollbar(
+                style = getInstance().scrollbarStyle(),
+                modifier = Modifier.align(Alignment.BottomStart)
+                    .fillMaxWidth()
+                  //  .padding(end = 12.dp)
+                , adapter = rememberScrollbarAdapter(stateHorizontal)
+            )
+        }
+    }
+
 }
 
