@@ -7,8 +7,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.input.pointer.PointerEventType
+import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -162,13 +165,20 @@ object Editor : Ui {
     }
 
 
-    @OptIn(ExperimentalFoundationApi::class)
+    @OptIn(ExperimentalFoundationApi::class, ExperimentalComposeUiApi::class)
     @Composable
     override fun ui() {
-        Column(modifier = PointerUtil.onTap {
-            contextMenu.value = false
-        }
-            .fillMaxSize()
+
+        Column(
+            modifier = PointerUtil.onTap {
+                contextMenu.value = false
+            }.fillMaxSize()
+                .onPointerEvent(PointerEventType.Move){
+                    if (!contextMenu.value) {
+                        val offset = it.changes.first().position
+                        contextMenuOffset.value = offset
+                    }
+                }
         ) {
             // header park
             Row(
@@ -319,7 +329,6 @@ object Editor : Ui {
                     Text("Hello", color = Theme.getInstance().fontColor)
                 }
             }
-
         }
 
 
@@ -328,9 +337,8 @@ object Editor : Ui {
     private var contextMenu = mutableStateOf(false)
     private var contextMenuOffset = mutableStateOf(Offset.Zero)
 
-    fun openContextMenu(offset: Offset) {
-        //contextMenu.value = true
-        contextMenuOffset.value = offset
+    fun openContextMenu() {
+        contextMenu.value = false
     }
 
 

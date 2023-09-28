@@ -13,11 +13,11 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.PointerIcon
-import androidx.compose.ui.input.pointer.pointerHoverIcon
-import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.input.pointer.*
 import androidx.compose.ui.unit.dp
 import open.FileUtil
 import open.IconUtil
@@ -25,6 +25,7 @@ import theme.Theme
 import theme.ThemeIcon
 import ui.Ui
 import ui.document.FileDocument
+import java.awt.Window
 
 
 class FileTree(var file: String) : Ui {
@@ -84,7 +85,7 @@ class FileTree(var file: String) : Ui {
     }
 
 
-    @OptIn(ExperimentalFoundationApi::class)
+    @OptIn(ExperimentalFoundationApi::class, ExperimentalComposeUiApi::class)
     @Composable
     fun text(path: String, selected: MutableState<String>, offsetX: Int) {
         var name = FileUtil.getFileOrDirName(path)
@@ -119,7 +120,7 @@ class FileTree(var file: String) : Ui {
                     )
 
                 }.contextMenuOpenDetector {
-                    Editor.openContextMenu(it)
+                    Editor.openContextMenu()
                 }
                 .height(26.dp)
                 .background(selectedColor).fillMaxWidth(),
@@ -161,5 +162,12 @@ class FileTree(var file: String) : Ui {
     }
 }
 
-
+private fun localToGlobal(localOffset: Offset): Offset {
+    val window = Window.getWindows().firstOrNull() ?: return Offset.Zero
+    val locationOnScreen = window.locationOnScreen
+    val scale = window.graphicsConfiguration.defaultTransform.scaleX
+    val globalX = (locationOnScreen.x + localOffset.x * scale).toInt()
+    val globalY = (locationOnScreen.y + localOffset.y * scale).toInt()
+    return Offset(globalX.toFloat(), globalY.toFloat())
+}
 
