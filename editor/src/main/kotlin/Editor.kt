@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import data.DataManager
+import open.FileUtil
 import open.PointerUtil
 import theme.Theme
 import ui.Ui
@@ -67,7 +68,7 @@ object Editor : Ui {
         addWindow(PluginWindow)
 
         val manager = DataManager.getInstance()
-        if (manager.openPath.isNotEmpty()) {
+        if (manager.openPath.isNotEmpty() && FileUtil.isDirectory(manager.openPath)) {
             FileWindow.selectPath(manager.openPath)
             openWindowById(FileWindow.id())
         }
